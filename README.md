@@ -1,9 +1,9 @@
-# Friday, November 25 2022
+# Friday, November 26 2022
 
 ## Tasks
 
--   [ ] Implement date and time option
--   [ ] Implement checking of task
+-   [x] Implement date and time option
+-   [x] Implement checking of task
 -   [ ] Implement removal of task
 -   [ ] Implement removal of subtask
 -   [ ] Implement editing of task

@@ -8,19 +8,31 @@ import Pressable from '../components/Pressable';
 import { CalendarIcon, ArrowRightIcon, XMarkIcon } from 'react-native-heroicons/outline';
 import { FlatList } from 'react-native';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useActions } from '../hooks/useActions';
 import { v4 } from 'uuid';
+import moment from 'moment';
 
 interface Subtask {
     subtask: string;
     id: string;
 }
 
+const currentDateString = moment(new Date(), 'YYYY-MM-DD').format().split('T')[0];
+
 const NewTaskScreen = ({
     route: {
-        params: { selectedCategories },
+        params: {
+            selectedCategories,
+            selectedDay = {
+                dateString: currentDateString,
+                day: new Date().getDate(),
+                month: new Date().getMonth() + 1,
+                year: new Date().getFullYear(),
+                timestamp: new Date().getTime(),
+            },
+        },
     },
 }: NewTaskScreenProps) => {
     const [title, setTitle] = useState('');
@@ -40,6 +52,7 @@ const NewTaskScreen = ({
             subtasks,
             id: v4(),
             categories: selectedCategories,
+            date: selectedDay,
         });
 
         navigation.goBack();
@@ -80,9 +93,18 @@ const NewTaskScreen = ({
                                 <Pressable
                                     twStyle="flex-row items-center rounded-full p-4 border-gray-100"
                                     style={{ borderWidth: 2 }}
+                                    onPress={() =>
+                                        navigation.navigate('AddDateScreen', {
+                                            prevSelectedDay: selectedDay,
+                                        })
+                                    }
                                 >
                                     <CalendarIcon size={20} color="rgb(156, 163, 175)" />
-                                    <Text twStyle="text-gray-400 ml-2">Today</Text>
+                                    <Text twStyle="text-gray-400 ml-2">
+                                        {selectedDay.dateString === currentDateString
+                                            ? 'Today'
+                                            : moment(selectedDay.dateString).format('MMM D')}
+                                    </Text>
                                 </Pressable>
                                 <Pressable
                                     onPress={() =>

@@ -4,29 +4,30 @@ import Text from './Text';
 import Pressable from './Pressable';
 import { Checkbox } from 'react-native-paper';
 
-import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useActions } from '../hooks/useActions';
+import { useSelector } from 'react-redux';
+import { selectTask } from '../redux/slices/tasksSlice';
 
 interface TaskCardProps {
-    title: string;
-    description?: string;
     id: string;
     completed: boolean;
 }
 
-const TaskCard: FunctionComponent<TaskCardProps> = ({ title, id, completed }) => {
-    const [checked, setChecked] = useState(completed);
+const TaskCard: FunctionComponent<TaskCardProps> = ({ id }) => {
     const navigation = useNavigation();
     const { checkTask, uncheckTask } = useActions();
+    const task = useSelector((state: any) => selectTask(state, id));
 
-    useEffect(() => {
-        if (checked) {
+    const { title, completed } = task;
+
+    const handleCheckTask = () => {
+        if (!completed) {
             checkTask({ taskId: id });
         } else {
             uncheckTask({ taskId: id });
         }
-    }, [checked]);
+    };
 
     return (
         <Pressable
@@ -38,9 +39,9 @@ const TaskCard: FunctionComponent<TaskCardProps> = ({ title, id, completed }) =>
             twStyle="flex-row items-center bg-white rounded-3xl p-5 mx-6 mt-2"
         >
             <Checkbox.Android
-                status={checked ? 'checked' : 'unchecked'}
+                status={completed ? 'checked' : 'unchecked'}
                 color="rgb(59, 130, 246)"
-                onPress={() => setChecked(!checked)}
+                onPress={handleCheckTask}
             />
             <Text twStyle="text-lg ml-2">{title}</Text>
         </Pressable>

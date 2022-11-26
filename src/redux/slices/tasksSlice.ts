@@ -1,3 +1,5 @@
+import type { DateData } from 'react-native-calendars';
+
 import { createSlice } from '@reduxjs/toolkit';
 
 interface Subtask {
@@ -13,6 +15,7 @@ export interface Task {
     subtasks: Subtask[];
     id: string;
     categories: string[];
+    date: DateData;
 }
 
 const initialState: Task[] = [];

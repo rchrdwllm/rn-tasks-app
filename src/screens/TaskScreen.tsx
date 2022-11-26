@@ -1,37 +1,49 @@
 import type { TaskScreenProps } from '../../App';
 import type { Task } from '../redux/slices/tasksSlice';
 
-import { View, SafeAreaView, FlatList, Alert } from 'react-native';
+import { View, SafeAreaView, FlatList } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Text from '../components/Text';
 import BackButton from '../components/BackButton';
-import Label from '../components/Label';
+import CategoryLabel from '../components/CategoryLabel';
+import DateLabel from '../components/DateLabel';
+import SubtaskCard from '../components/SubtaskCard';
+import Pressable from '../components/Pressable';
+import { CheckIcon, XMarkIcon } from 'react-native-heroicons/outline';
+import Animated, { Layout, FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { useSelector } from 'react-redux';
+import { useActions } from '../hooks/useActions';
 import { selectTask } from '../redux/slices/tasksSlice';
-import SubtaskCard from '../components/SubtaskCard';
-import { useEffect } from 'react';
 
 const TaskScreen = ({ route }: TaskScreenProps) => {
     const task: Task = useSelector((state: any) => selectTask(state, route.params.id));
+    const { checkTask, uncheckTask } = useActions();
 
     if (!task) return null;
 
-    const { title, description, completed, subtasks, categories } = task;
+    const { title, description, completed, subtasks, categories, date, id } = task;
 
-    useEffect(() => {
-        if (completed) {
-            Alert.alert('Task Completed', 'Congratulations on completing this task!');
+    const handleCheckTask = () => {
+        if (!completed) {
+            checkTask({ taskId: id });
+        } else {
+            uncheckTask({ taskId: id });
         }
-    }, [completed]);
+    };
 
     return (
         <SafeAreaView
-            className="flex-1 pt-16"
+            className={`flex-1 ${!completed ? 'pt-16' : ''}`}
             style={{
                 backgroundColor: '#F9FAFF',
             }}
         >
+            {completed && (
+                <View className="bg-blue-500 pt-14 pb-8 mb-6">
+                    <Text twStyle="text-white text-center">Task is done, congratulations!</Text>
+                </View>
+            )}
             <View
                 className="flex-1"
                 style={{
@@ -53,8 +65,9 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                                 {title}
                             </Text>
                             <View className="flex-row items-center mt-6">
+                                <DateLabel date={date} />
                                 {categories.map(id => (
-                                    <Label key={id} id={id} />
+                                    <CategoryLabel key={id} id={id} />
                                 ))}
                             </View>
                             <View className="mt-10">
@@ -84,7 +97,27 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                     }
                 />
             </View>
-            <StatusBar backgroundColor="#F9FAFF" />
+            <View
+                style={{
+                    position: 'absolute',
+                    bottom: 24,
+                    right: 24,
+                    elevation: 10,
+                    height: 65,
+                    width: 65,
+                }}
+            >
+                <Pressable
+                    twStyle="justify-center items-center rounded-full h-[65] w-[65] bg-blue-500"
+                    style={{
+                        elevation: 10,
+                    }}
+                    onPress={handleCheckTask}
+                >
+                    {completed ? <XMarkIcon size={28} color="white" /> : <CheckIcon size={28} color="white" />}
+                </Pressable>
+            </View>
+            <StatusBar style={completed ? 'light' : 'dark'} />
         </SafeAreaView>
     );
 };

@@ -8,7 +8,6 @@ import TaskCard from '../components/TaskCard';
 import AddTaskButton from '../components/AddTaskButton';
 
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import { selectTasks } from '../redux/slices/tasksSlice';
 
 const HomeScreen = () => {

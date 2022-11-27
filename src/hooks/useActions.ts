@@ -7,6 +7,9 @@ import {
     uncheckSubtask,
     checkTask,
     uncheckTask,
+    removeSubtask,
+    editTask,
+    editSubtask,
 } from '../redux/slices/tasksSlice';
 import { addCategory, removeCategory, addToCategory, removeFromCategory } from '../redux/slices/categoriesSlice';
 import { useDispatch } from 'react-redux';
@@ -27,6 +30,9 @@ export const useActions = () => {
             removeCategory,
             addToCategory,
             removeFromCategory,
+            removeSubtask,
+            editTask,
+            editSubtask,
         },
         dispatch
     );

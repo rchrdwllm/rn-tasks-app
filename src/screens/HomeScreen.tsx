@@ -49,7 +49,7 @@ const HomeScreen = () => {
                 />
             </View>
             <AddTaskButton />
-            <StatusBar backgroundColor="#F9FAFF" style="dark" />
+            <StatusBar style="dark" />
         </SafeAreaView>
     );
 };

@@ -1,7 +1,7 @@
 import type { TaskScreenProps } from '../../App';
 import type { Task } from '../redux/slices/tasksSlice';
 
-import { View, SafeAreaView, FlatList } from 'react-native';
+import { View, SafeAreaView, FlatList, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Text from '../components/Text';
 import BackButton from '../components/BackButton';
@@ -9,16 +9,17 @@ import CategoryLabel from '../components/CategoryLabel';
 import DateLabel from '../components/DateLabel';
 import SubtaskCard from '../components/SubtaskCard';
 import Pressable from '../components/Pressable';
-import { CheckIcon, XMarkIcon } from 'react-native-heroicons/outline';
-import Animated, { Layout, FadeIn, FadeOut } from 'react-native-reanimated';
+import { CheckIcon, XMarkIcon, TrashIcon } from 'react-native-heroicons/outline';
 
 import { useSelector } from 'react-redux';
 import { useActions } from '../hooks/useActions';
+import { useNavigation } from '@react-navigation/native';
 import { selectTask } from '../redux/slices/tasksSlice';
 
 const TaskScreen = ({ route }: TaskScreenProps) => {
     const task: Task = useSelector((state: any) => selectTask(state, route.params.id));
-    const { checkTask, uncheckTask } = useActions();
+    const { checkTask, uncheckTask, removeTask } = useActions();
+    const navigation = useNavigation();
 
     if (!task) return null;
 
@@ -30,6 +31,23 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
         } else {
             uncheckTask({ taskId: id });
         }
+    };
+
+    const handleRemoveTask = () => {
+        Alert.alert('Remove Task', 'Are you sure you want to remove this task?', [
+            {
+                text: 'Cancel',
+                style: 'cancel',
+            },
+            {
+                text: 'Remove',
+                style: 'destructive',
+                onPress: () => {
+                    removeTask({ taskId: id });
+                    navigation.goBack();
+                },
+            },
+        ]);
     };
 
     return (
@@ -60,7 +78,12 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                     }}
                     ListHeaderComponent={
                         <>
-                            <BackButton />
+                            <View className="flex-row justify-between">
+                                <BackButton />
+                                <Pressable onPress={handleRemoveTask}>
+                                    <TrashIcon size={24} color="rgb(156, 163, 175)" />
+                                </Pressable>
+                            </View>
                             <Text twStyle="text-3xl mt-8" bold>
                                 {title}
                             </Text>

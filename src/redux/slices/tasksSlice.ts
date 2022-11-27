@@ -28,7 +28,18 @@ const tasksSlice = createSlice({
             state.push(action.payload);
         },
         removeTask: (state, action) => {
+            // console.log(action.payload.taskId);
             return state.filter(task => task.id !== action.payload.taskId);
+        },
+        editTask: (state, action) => {
+            const task = state.find(task => task.id === action.payload.taskId);
+
+            if (task) {
+                task.title = action.payload.title;
+                task.description = action.payload.description;
+                task.date = action.payload.date;
+                task.categories = action.payload.categories;
+            }
         },
         addTaskCategory: (state, action) => {
             const task = state.find(task => task.id === action.payload.taskId);
@@ -55,6 +66,24 @@ const tasksSlice = createSlice({
                 if (subtask) subtask.completed = false;
             }
         },
+        removeSubtask: (state, action) => {
+            const task = state.find(task => task.id === action.payload.taskId);
+
+            if (task) {
+                const subtask = task.subtasks.find(subtask => subtask.id === action.payload.subtaskId);
+
+                if (subtask) task.subtasks = task.subtasks.filter(subtask => subtask.id !== action.payload.subtaskId);
+            }
+        },
+        editSubtask: (state, action) => {
+            const task = state.find(task => task.id === action.payload.taskId);
+
+            if (task) {
+                const subtask = task.subtasks.find(subtask => subtask.id === action.payload.subtaskId);
+
+                if (subtask) subtask.subtask = action.payload.subtask;
+            }
+        },
         checkTask: (state, action) => {
             const task = state.find(task => task.id === action.payload.taskId);
 
@@ -72,8 +101,18 @@ const tasksSlice = createSlice({
     },
 });
 
-export const { addTask, removeTask, addTaskCategory, checkSubtask, uncheckSubtask, checkTask, uncheckTask } =
-    tasksSlice.actions;
+export const {
+    addTask,
+    removeTask,
+    addTaskCategory,
+    checkSubtask,
+    uncheckSubtask,
+    checkTask,
+    uncheckTask,
+    removeSubtask,
+    editTask,
+    editSubtask,
+} = tasksSlice.actions;
 export const selectTasks = (state: any) => state.tasks;
 export const selectTask = (state: any, id: string) => state.tasks.find((task: Task) => task.id === id);
 

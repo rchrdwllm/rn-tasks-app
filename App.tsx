@@ -9,6 +9,9 @@ import NewTaskScreen from './src/screens/NewTaskScreen';
 import TaskScreen from './src/screens/TaskScreen';
 import AddCategoryScreen from './src/screens/AddCategoryScreen';
 import AddDateScreen from './src/screens/AddDateScreen';
+import EditDateScreen from './src/screens/EditDateScreen';
+import EditCategoryScreen from './src/screens/EditCategoryScreen';
+import CategoryScreen from './src/screens/CategoryScreen';
 import { Provider } from 'react-redux';
 
 import {
@@ -24,14 +27,27 @@ type RootStackParamList = {
     HomeScreen: undefined;
     NewTaskScreen: { selectedCategories: string[]; selectedDay: DateData };
     TaskScreen: { id: string };
-    AddCategoryScreen: { selectedCategories: string[] };
-    AddDateScreen: { prevSelectedDay: DateData };
+    AddCategoryScreen: { selectedCategories: string[]; selectedDay: DateData };
+    AddDateScreen: { prevSelectedDay: DateData; selectedCategories: [] };
+    EditDateScreen: {
+        id: string;
+        title: string;
+        description: string;
+        categories: string[];
+        selectedDay: DateData;
+        subtasks: { subtask: string; id: string }[];
+    };
+    EditCategoryScreen: { currentCategories: string[]; id: string };
+    CategoryScreen: { id: string };
 };
 
 export type TaskScreenProps = StackScreenProps<RootStackParamList, 'TaskScreen'>;
 export type NewTaskScreenProps = StackScreenProps<RootStackParamList, 'NewTaskScreen'>;
 export type AddCategoryScreenProps = StackScreenProps<RootStackParamList, 'AddCategoryScreen'>;
 export type AddDateScreenProps = StackScreenProps<RootStackParamList, 'AddDateScreen'>;
+export type EditDateScreenProps = StackScreenProps<RootStackParamList, 'EditDateScreen'>;
+export type EditCategoryScreenProps = StackScreenProps<RootStackParamList, 'EditCategoryScreen'>;
+export type CategoryScreenProps = StackScreenProps<RootStackParamList, 'CategoryScreen'>;
 
 export default function App() {
     const Stack = createStackNavigator<RootStackParamList>();
@@ -101,6 +117,48 @@ export default function App() {
                         options={{
                             cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
                             gestureDirection: 'vertical',
+                            gestureEnabled: true,
+                            headerShown: false,
+                            transitionSpec: {
+                                open: TransitionSpecs.TransitionIOSSpec,
+                                close: TransitionSpecs.TransitionIOSSpec,
+                            },
+                        }}
+                    />
+                    <Stack.Screen
+                        name="EditDateScreen"
+                        component={EditDateScreen}
+                        options={{
+                            cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                            gestureDirection: 'vertical',
+                            gestureEnabled: true,
+                            headerShown: false,
+                            transitionSpec: {
+                                open: TransitionSpecs.TransitionIOSSpec,
+                                close: TransitionSpecs.TransitionIOSSpec,
+                            },
+                        }}
+                    />
+                    <Stack.Screen
+                        name="EditCategoryScreen"
+                        component={EditCategoryScreen}
+                        options={{
+                            cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+                            gestureDirection: 'vertical',
+                            gestureEnabled: true,
+                            headerShown: false,
+                            transitionSpec: {
+                                open: TransitionSpecs.TransitionIOSSpec,
+                                close: TransitionSpecs.TransitionIOSSpec,
+                            },
+                        }}
+                    />
+                    <Stack.Screen
+                        name="CategoryScreen"
+                        component={CategoryScreen}
+                        options={{
+                            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                            gestureDirection: 'horizontal',
                             gestureEnabled: true,
                             headerShown: false,
                             transitionSpec: {

@@ -1,5 +1,5 @@
 import type { Category } from '../redux/slices/categoriesSlice';
-import type { AddCategoryScreenProps } from '../../App';
+import type { EditCategoryScreenProps } from '../../App';
 
 import { View } from 'react-native';
 import Text from '../components/Text';
@@ -12,18 +12,22 @@ import { useSelector } from 'react-redux';
 import { selectCategories } from '../redux/slices/categoriesSlice';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
+import { useActions } from '../hooks/useActions';
 
-const AddCategoryScreen = ({
+const EditCategoryScreen = ({
     route: {
-        params: { selectedCategories: savedCategories, selectedDay },
+        params: { id, currentCategories },
     },
-}: AddCategoryScreenProps) => {
+}: EditCategoryScreenProps) => {
     const categories: Category[] = useSelector(selectCategories);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const navigation = useNavigation();
+    const { editCategories } = useActions();
 
-    const handleAddCategories = () => {
-        navigation.navigate('NewTaskScreen', { selectedCategories, selectedDay });
+    const handleEditCategories = () => {
+        editCategories({ taskId: id, categories: selectedCategories });
+
+        navigation.goBack();
     };
 
     return (
@@ -34,7 +38,7 @@ const AddCategoryScreen = ({
             }}
         >
             <Text twStyle="pt-10 text-center text-xl" bold>
-                Add categories
+                Edit categories
             </Text>
             <FlatList
                 data={categories}
@@ -42,7 +46,7 @@ const AddCategoryScreen = ({
                 renderItem={({ item }) => (
                     <AddCategoryCard
                         {...item}
-                        savedCategories={savedCategories}
+                        savedCategories={currentCategories}
                         setSelectedCategories={setSelectedCategories}
                     />
                 )}
@@ -61,7 +65,7 @@ const AddCategoryScreen = ({
                 }}
             >
                 <Pressable
-                    onPress={handleAddCategories}
+                    onPress={handleEditCategories}
                     twStyle="justify-center items-center rounded-full h-[65] px-6 bg-blue-500"
                 >
                     <Text twStyle="text-white" bold>
@@ -74,4 +78,4 @@ const AddCategoryScreen = ({
     );
 };
 
-export default AddCategoryScreen;
+export default EditCategoryScreen;

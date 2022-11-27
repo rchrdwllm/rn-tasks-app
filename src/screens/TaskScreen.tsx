@@ -9,16 +9,21 @@ import CategoryLabel from '../components/CategoryLabel';
 import DateLabel from '../components/DateLabel';
 import SubtaskCard from '../components/SubtaskCard';
 import Pressable from '../components/Pressable';
-import { CheckIcon, XMarkIcon, TrashIcon } from 'react-native-heroicons/outline';
+import { CheckIcon, XMarkIcon, TrashIcon, PlusSmallIcon, ArrowRightIcon } from 'react-native-heroicons/outline';
+import Input from '../components/Input';
 
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useActions } from '../hooks/useActions';
 import { useNavigation } from '@react-navigation/native';
 import { selectTask } from '../redux/slices/tasksSlice';
+import { v4 } from 'uuid';
 
 const TaskScreen = ({ route }: TaskScreenProps) => {
     const task: Task = useSelector((state: any) => selectTask(state, route.params.id));
-    const { checkTask, uncheckTask, removeTask } = useActions();
+    const [shouldAddSubtask, setShouldAddSubtask] = useState(false);
+    const [subtask, setSubtask] = useState('');
+    const { checkTask, uncheckTask, removeTask, editTask } = useActions();
     const navigation = useNavigation();
 
     if (!task) return null;
@@ -50,6 +55,20 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
         ]);
     };
 
+    const handleAddSubtask = () => {
+        editTask({
+            taskId: id,
+            title,
+            description,
+            date,
+            categories,
+            subtasks: [...subtasks, { id: v4(), subtask, completed: false }],
+        });
+
+        setSubtask('');
+        setShouldAddSubtask(false);
+    };
+
     return (
         <SafeAreaView
             className={`flex-1 ${!completed ? 'pt-16' : ''}`}
@@ -71,7 +90,7 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                 <FlatList
                     data={subtasks}
                     renderItem={({ item }) => <SubtaskCard {...item} taskId={route.params.id} />}
-                    ListEmptyComponent={() => <Text twStyle="mt-4">No subtasks provided.</Text>}
+                    ListEmptyComponent={() => <Text twStyle="text-gray-400">No subtasks provided.</Text>}
                     keyExtractor={item => item.id}
                     contentContainerStyle={{
                         paddingHorizontal: 24,
@@ -84,14 +103,60 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                                     <TrashIcon size={24} color="rgb(156, 163, 175)" />
                                 </Pressable>
                             </View>
-                            <Text twStyle="text-3xl mt-8" bold>
-                                {title}
-                            </Text>
-                            <View className="flex-row items-center mt-6">
-                                <DateLabel date={date} />
-                                {categories.map(id => (
-                                    <CategoryLabel key={id} id={id} />
-                                ))}
+                            <Input
+                                multiline
+                                value={title}
+                                onChangeText={e => {
+                                    editTask({
+                                        taskId: id,
+                                        title: e,
+                                        description,
+                                        date,
+                                        categories,
+                                        subtasks,
+                                    });
+                                }}
+                                showUnderline={false}
+                                twStyle="p-0 text-3xl mt-8"
+                                bold
+                                placeholder="Untitled"
+                            />
+                            <View className="mt-6">
+                                <View className="flex-row items-center">
+                                    <DateLabel
+                                        onPress={() => {
+                                            navigation.navigate('EditDateScreen', {
+                                                id,
+                                                title,
+                                                description,
+                                                categories,
+                                                selectedDay: date,
+                                                subtasks,
+                                            });
+                                        }}
+                                        date={date}
+                                    />
+                                    <Text twStyle="text-slate-600">
+                                        {subtasks.length} {subtasks.length > 1 ? 'subtasks' : 'subtask'}
+                                    </Text>
+                                </View>
+                                <View className="flex-row flex-wrap mt-2 items-center">
+                                    {categories.map(categoryId => (
+                                        <CategoryLabel id={categoryId} taskId={id} key={categoryId} />
+                                    ))}
+                                    <Pressable
+                                        onPress={() =>
+                                            navigation.navigate('EditCategoryScreen', {
+                                                currentCategories: categories,
+                                                id,
+                                            })
+                                        }
+                                        twStyle="flex-row items-center bg-slate-100 px-2 py-1 rounded-md"
+                                    >
+                                        <PlusSmallIcon size={16} color="rgb(100, 116, 139)" />
+                                        <Text twStyle="text-slate-600"> Add</Text>
+                                    </Pressable>
+                                </View>
                             </View>
                             <View className="mt-10">
                                 <Text
@@ -103,7 +168,24 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                                 >
                                     Description
                                 </Text>
-                                <Text twStyle="mt-4">{description ? description : 'No description was provided.'}</Text>
+
+                                <Input
+                                    multiline
+                                    value={description}
+                                    onChangeText={e => {
+                                        editTask({
+                                            taskId: id,
+                                            title,
+                                            description: e,
+                                            date,
+                                            categories,
+                                            subtasks,
+                                        });
+                                    }}
+                                    showUnderline={false}
+                                    twStyle="mt-3 p-0"
+                                    placeholder="Enter a description for this task"
+                                />
                             </View>
                             <View className="mt-10 mb-4">
                                 <Text
@@ -115,6 +197,45 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                                 >
                                     Subtasks
                                 </Text>
+                            </View>
+                        </>
+                    }
+                    ListFooterComponent={
+                        <>
+                            {shouldAddSubtask && (
+                                <View className="flex-row items-center space-x-2">
+                                    <View className="flex-row space-x-2">
+                                        <Pressable
+                                            onPress={() => {
+                                                setSubtask('');
+                                                setShouldAddSubtask(false);
+                                            }}
+                                        >
+                                            <XMarkIcon size={20} color="rgb(156, 163, 175)" />
+                                        </Pressable>
+                                        <ArrowRightIcon size={20} color="rgb(156, 163, 175)" />
+                                    </View>
+                                    <View className="flex-1">
+                                        <Input
+                                            value={subtask}
+                                            onChangeText={e => setSubtask(e)}
+                                            placeholder="Add subtask"
+                                        />
+                                    </View>
+                                </View>
+                            )}
+                            <View className="flex-row mt-4">
+                                <Pressable
+                                    onPress={() => {
+                                        if (subtask) handleAddSubtask();
+
+                                        setShouldAddSubtask(true);
+                                    }}
+                                    twStyle="rounded-full p-4 border-gray-100"
+                                    style={{ borderWidth: 2 }}
+                                >
+                                    <Text twStyle="text-gray-400">Add subtask</Text>
+                                </Pressable>
                             </View>
                         </>
                     }

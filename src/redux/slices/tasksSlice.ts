@@ -28,7 +28,6 @@ const tasksSlice = createSlice({
             state.push(action.payload);
         },
         removeTask: (state, action) => {
-            // console.log(action.payload.taskId);
             return state.filter(task => task.id !== action.payload.taskId);
         },
         editTask: (state, action) => {
@@ -37,8 +36,9 @@ const tasksSlice = createSlice({
             if (task) {
                 task.title = action.payload.title;
                 task.description = action.payload.description;
-                task.date = action.payload.date;
                 task.categories = action.payload.categories;
+                task.date = action.payload.date;
+                task.subtasks = action.payload.subtasks;
             }
         },
         addTaskCategory: (state, action) => {
@@ -98,6 +98,20 @@ const tasksSlice = createSlice({
                 task.completed = false;
             }
         },
+        editCategories: (state, action) => {
+            const task = state.find(task => task.id === action.payload.taskId);
+
+            if (task) {
+                task.categories = action.payload.categories;
+            }
+        },
+        removeTaskCategory: (state, action) => {
+            const task = state.find(task => task.id === action.payload.taskId);
+
+            if (task) {
+                task.categories = task.categories.filter(category => category !== action.payload.categoryId);
+            }
+        },
     },
 });
 
@@ -112,8 +126,12 @@ export const {
     removeSubtask,
     editTask,
     editSubtask,
+    editCategories,
+    removeTaskCategory,
 } = tasksSlice.actions;
 export const selectTasks = (state: any) => state.tasks;
 export const selectTask = (state: any, id: string) => state.tasks.find((task: Task) => task.id === id);
+export const selectByCategory = (state: any, id: string) =>
+    state.tasks.filter((task: Task) => task.categories.includes(id));
 
 export default tasksSlice.reducer;

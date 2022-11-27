@@ -1,16 +1,23 @@
-# Friday, November 26 2022
+# Sunday, November 27 2022
 
 ## Tasks
 
 -   [x] Implement date and time option
 -   [x] Implement checking of task
--   [ ] Implement removal of task
--   [ ] Implement removal of subtask
--   [ ] Implement editing of task
-    -   Title
-    -   Description
-    -   Date and time
-    -   Categories
-    -   Subtasks
+-   [x] Implement removal of task
+-   [x] Implement removal of subtask
+-   [x] Implement editing of task
+    -   [x] Title
+    -   [x] Description
+    -   [x] Date and time
+    -   [x] Categories
+    -   [x] Subtasks
+-   [ ] Implement menu
+-   [ ] Implement adding of categories
+-   [ ] Implement editing of categories
+    -   [ ] Category name
+    -   [ ] Category color
 
 ## Notes
+
+-   Improve the design of the app

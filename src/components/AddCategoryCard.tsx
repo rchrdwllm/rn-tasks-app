@@ -41,9 +41,14 @@ const AddCategoryCard: FunctionComponent<AddCategoryCardProps> = ({
     return (
         <Pressable onPress={handlePress}>
             <View className="flex-row items-center bg-white rounded-2xl mt-2 py-4 px-6 pl-4">
-                <Checkbox status={selected ? 'checked' : 'unchecked'} color="rgb(59, 130, 246)" />
+                <Checkbox status={selected ? 'checked' : 'unchecked'} color={color} />
                 <Text twStyle="flex-1">{name}</Text>
-                <View className={`h-[50] w-[50] rounded-full ${color}`}></View>
+                <View
+                    className="h-[50] w-[50] rounded-full"
+                    style={{
+                        backgroundColor: color,
+                    }}
+                ></View>
             </View>
         </Pressable>
     );

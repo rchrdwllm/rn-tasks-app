@@ -96,6 +96,7 @@ const NewTaskScreen = ({
                                     onPress={() =>
                                         navigation.navigate('AddDateScreen', {
                                             prevSelectedDay: selectedDay,
+                                            selectedCategories,
                                         })
                                     }
                                 >
@@ -110,6 +111,7 @@ const NewTaskScreen = ({
                                     onPress={() =>
                                         navigation.navigate('AddCategoryScreen', {
                                             selectedCategories,
+                                            selectedDay,
                                         })
                                     }
                                     twStyle="rounded-full p-4 border-gray-100"

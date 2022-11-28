@@ -1,11 +1,12 @@
 import { FunctionComponent, ReactNode, useRef } from 'react';
 
-import { Animated } from 'react-native';
+import { Animated, View } from 'react-native';
 import Text from './Text';
 import Pressable from './Pressable';
 import { Checkbox } from 'react-native-paper';
 import { Swipeable } from 'react-native-gesture-handler';
 import { TrashIcon } from 'react-native-heroicons/outline';
+import { Shadow } from 'react-native-shadow-2';
 
 import { useNavigation } from '@react-navigation/native';
 import { useActions } from '../hooks/useActions';
@@ -67,29 +68,49 @@ const TaskCard: FunctionComponent<TaskCardProps> = ({ id, checkboxColor }) => {
     };
 
     return (
-        <Swipeable
-            ref={swipeableRef}
-            containerStyle={{
-                paddingHorizontal: 24,
-            }}
-            renderRightActions={rightSwipe}
-        >
+        <View className="-mt-8">
             <Pressable
                 onPress={() =>
                     navigation.navigate('TaskScreen', {
                         id,
                     })
                 }
-                twStyle="flex-row items-center bg-white rounded-3xl p-5 mt-2"
             >
-                <Checkbox.Android
-                    status={completed ? 'checked' : 'unchecked'}
-                    color={checkboxColor ? checkboxColor : category ? category.color : 'rgb(156, 163, 175)'}
-                    onPress={handleCheckTask}
-                />
-                <Text twStyle="text-lg ml-2">{title}</Text>
+                <Shadow
+                    containerStyle={{
+                        marginBottom: 32,
+                    }}
+                    distance={10}
+                    startColor={'#dbeafe24'}
+                    endColor={'#ffffff00'}
+                    offset={[0, 10]}
+                    style={{
+                        borderRadius: 20,
+                    }}
+                    stretch
+                >
+                    <Swipeable
+                        ref={swipeableRef}
+                        containerStyle={{
+                            paddingHorizontal: 24,
+                        }}
+                        renderRightActions={rightSwipe}
+                    >
+                        <View className="flex-row items-center bg-white rounded-3xl p-5 mt-2">
+                            <Checkbox.Android
+                                status={completed ? 'checked' : 'unchecked'}
+                                color={checkboxColor ? checkboxColor : category ? category.color : 'rgb(156, 163, 175)'}
+                                onPress={handleCheckTask}
+                                style={{
+                                    borderRadius: 100,
+                                }}
+                            />
+                            <Text twStyle="text-lg ml-2">{title}</Text>
+                        </View>
+                    </Swipeable>
+                </Shadow>
             </Pressable>
-        </Swipeable>
+        </View>
     );
 };
 

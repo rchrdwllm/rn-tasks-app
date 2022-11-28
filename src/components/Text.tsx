@@ -23,7 +23,7 @@ const Text: FunctionComponent<TextProps> = ({ twStyle, style, bold, medium, chil
 
     return (
         <RNText
-            className={`${twStyle}`}
+            className={`text-slate-800 ${twStyle}`}
             style={{
                 fontFamily: bold ? 'RubikBold' : medium ? 'RubikMedium' : 'Rubik',
                 ...style,

@@ -17,7 +17,7 @@ const BackButton: FunctionComponent<BackButtonProps> = ({ twStyle, style }) => {
     return (
         <View className="flex-row">
             <Pressable twStyle={twStyle} style={style} onPress={() => navigation.goBack()}>
-                <ChevronLeftIcon size={24} color="rgb(156, 163, 175)" />
+                <ChevronLeftIcon size={24} color="rgb(148, 163, 184)" />
             </Pressable>
         </View>
     );

@@ -1,4 +1,4 @@
-import { View, Platform, SafeAreaView } from 'react-native';
+import { View, Platform, SafeAreaView, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Header from '../components/Header';
 import Text from '../components/Text';
@@ -26,9 +26,9 @@ const HomeScreen = () => {
                         <>
                             <Header />
                             <Categories />
-                            <View className="mt-10">
+                            <View className="mt-4">
                                 <Text
-                                    twStyle="uppercase text-gray-400 ml-6 mb-4"
+                                    twStyle="uppercase text-slate-400 ml-6 mb-12"
                                     bold
                                     style={{
                                         letterSpacing: 2,
@@ -46,6 +46,19 @@ const HomeScreen = () => {
                         paddingTop: Platform.OS === 'android' ? 16 * 4 : 0,
                         paddingBottom: 24,
                     }}
+                    ListEmptyComponent={
+                        <View className="flex-1 justify-center items-center">
+                            <Image
+                                source={require('../../assets/complete-tasks.png')}
+                                style={{
+                                    height: 200,
+                                    width: 200,
+                                    resizeMode: 'contain',
+                                }}
+                            />
+                            <Text twStyle="mt-6 text-slate-400">Looks like there's nothing left to do. Awesome!</Text>
+                        </View>
+                    }
                 />
             </View>
             <AddTaskButton />

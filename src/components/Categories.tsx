@@ -13,7 +13,7 @@ const Categories = () => {
     return (
         <View className="mt-6">
             <Text
-                twStyle="uppercase text-gray-400 px-6"
+                twStyle="uppercase text-slate-400 px-6"
                 bold
                 style={{
                     letterSpacing: 2,
@@ -28,7 +28,7 @@ const Categories = () => {
                 keyExtractor={item => item.category}
                 renderItem={({ item, index }) => <CategoryCard {...item} index={index} />}
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: 24 }}
+                contentContainerStyle={{ paddingLeft: 24, paddingBottom: 24 }}
             />
         </View>
     );

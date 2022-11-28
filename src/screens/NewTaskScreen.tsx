@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useActions } from '../hooks/useActions';
 import { v4 } from 'uuid';
 import moment from 'moment';
+import { Shadow } from 'react-native-shadow-2';
 
 interface Subtask {
     subtask: string;
@@ -184,21 +185,32 @@ const NewTaskScreen = ({
                 style={{
                     position: 'absolute',
                     bottom: 24,
-                    right: 24,
+                    right: 48,
                     elevation: 10,
                     height: 65,
                 }}
             >
-                <Pressable
-                    twStyle="justify-center items-center rounded-full h-[65] px-6 bg-blue-500"
-                    style={{
-                        elevation: 10,
-                    }}
-                    onPress={handleAddTask}
-                >
-                    <Text twStyle="text-white" bold>
-                        Add task
-                    </Text>
+                <Pressable twStyle="justify-center items-center rounded-full h-[65]" onPress={handleAddTask}>
+                    <Shadow
+                        containerStyle={{
+                            marginBottom: 32,
+                        }}
+                        distance={20}
+                        startColor={'#67a1ff73'}
+                        endColor={'#ffffff00'}
+                        offset={[12, 15]}
+                        style={{
+                            borderRadius: 100,
+                            height: 50,
+                            width: 100,
+                        }}
+                    >
+                        <View className="justify-center items-center rounded-full h-[65] w-[124] bg-blue-500">
+                            <Text twStyle="text-white" bold>
+                                Add task
+                            </Text>
+                        </View>
+                    </Shadow>
                 </Pressable>
             </View>
 

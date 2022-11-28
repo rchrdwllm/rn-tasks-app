@@ -90,10 +90,11 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                 <FlatList
                     data={subtasks}
                     renderItem={({ item }) => <SubtaskCard {...item} taskId={route.params.id} />}
-                    ListEmptyComponent={() => <Text twStyle="text-gray-400">No subtasks provided.</Text>}
+                    ListEmptyComponent={() => <Text twStyle="text-slate-400 -mt-8 mb-8">No subtasks provided.</Text>}
                     keyExtractor={item => item.id}
                     contentContainerStyle={{
                         paddingHorizontal: 24,
+                        paddingBottom: 24,
                     }}
                     ListHeaderComponent={
                         <>
@@ -136,8 +137,8 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                                         }}
                                         date={date}
                                     />
-                                    <Text twStyle="text-slate-600">
-                                        {subtasks.length} {subtasks.length > 1 ? 'subtasks' : 'subtask'}
+                                    <Text twStyle="text-slate-500">
+                                        {subtasks.length} {subtasks.length === 1 ? 'subtask' : 'subtasks'}
                                     </Text>
                                 </View>
                                 <View className="flex-row flex-wrap mt-2 items-center">
@@ -160,7 +161,7 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                             </View>
                             <View className="mt-10">
                                 <Text
-                                    twStyle="uppercase text-gray-400"
+                                    twStyle="uppercase text-slate-400"
                                     bold
                                     style={{
                                         letterSpacing: 2,
@@ -187,9 +188,9 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                                     placeholder="Enter a description for this task"
                                 />
                             </View>
-                            <View className="mt-10 mb-4">
+                            <View className="mt-10 mb-12">
                                 <Text
-                                    twStyle="uppercase text-gray-400"
+                                    twStyle="uppercase text-slate-400"
                                     bold
                                     style={{
                                         letterSpacing: 2,
@@ -203,7 +204,7 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                     ListFooterComponent={
                         <>
                             {shouldAddSubtask && (
-                                <View className="flex-row items-center space-x-2">
+                                <View className="flex-row items-center space-x-2 mb-4">
                                     <View className="flex-row space-x-2">
                                         <Pressable
                                             onPress={() => {
@@ -224,17 +225,17 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                                     </View>
                                 </View>
                             )}
-                            <View className="flex-row mt-4">
+                            <View className="flex-row">
                                 <Pressable
                                     onPress={() => {
                                         if (subtask) handleAddSubtask();
 
                                         setShouldAddSubtask(true);
                                     }}
-                                    twStyle="rounded-full p-4 border-gray-100"
+                                    twStyle="rounded-full p-4 border-slate-100"
                                     style={{ borderWidth: 2 }}
                                 >
-                                    <Text twStyle="text-gray-400">Add subtask</Text>
+                                    <Text twStyle="text-slate-400">Add subtask</Text>
                                 </Pressable>
                             </View>
                         </>

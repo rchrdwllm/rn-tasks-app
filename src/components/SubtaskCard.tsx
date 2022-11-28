@@ -3,10 +3,11 @@ import { FunctionComponent, useEffect, ReactNode, useRef } from 'react';
 import Text from './Text';
 import Pressable from './Pressable';
 import { Checkbox } from 'react-native-paper';
-import { Animated } from 'react-native';
+import { Animated, View } from 'react-native';
 import { TrashIcon } from 'react-native-heroicons/outline';
 import { Swipeable } from 'react-native-gesture-handler';
 import Input from './Input';
+import { Shadow } from 'react-native-shadow-2';
 
 import { useState } from 'react';
 import { useActions } from '../hooks/useActions';
@@ -78,20 +79,54 @@ const SubtaskCard: FunctionComponent<SubtaskCardProps> = ({ id, subtask, complet
         handleEditSubtask();
     }, [newSubtask]);
 
+    /*
+    containerStyle={{
+                        marginBottom: 32,
+                    }}
+                    distance={10}
+                    startColor={'#dbeafe24'}
+                    endColor={'#ffffff00'}
+                    offset={[0, 10]}
+                    style={{
+                        borderRadius: 20,
+                    }}
+                    stretch 
+                    */
+
     return (
-        <Swipeable ref={swipeableRef} renderRightActions={rightSwipe}>
-            <Pressable
-                onPress={handleCompleteSubtask}
-                twStyle="flex-row items-center bg-white rounded-3xl px-5 py-3 mt-2"
-            >
-                <Checkbox.Android
-                    status={checked ? 'checked' : 'unchecked'}
-                    color="rgb(59, 130, 246)"
-                    onPress={handleCompleteSubtask}
-                />
-                <Input value={newSubtask} onChangeText={e => setNewSubtask(e)} multiline showUnderline={false} />
+        <View className="-mt-8">
+            <Pressable onPress={handleCompleteSubtask}>
+                <Shadow
+                    containerStyle={{
+                        marginBottom: 32,
+                    }}
+                    distance={10}
+                    startColor={'#dbeafe24'}
+                    endColor={'#ffffff00'}
+                    offset={[0, 10]}
+                    style={{
+                        borderRadius: 20,
+                    }}
+                    stretch
+                >
+                    <Swipeable ref={swipeableRef} renderRightActions={rightSwipe}>
+                        <View className="flex-row items-center bg-white rounded-3xl px-5 py-1 mt-2">
+                            <Checkbox.Android
+                                status={checked ? 'checked' : 'unchecked'}
+                                color="rgb(59, 130, 246)"
+                                onPress={handleCompleteSubtask}
+                            />
+                            <Input
+                                value={newSubtask}
+                                onChangeText={e => setNewSubtask(e)}
+                                multiline
+                                showUnderline={false}
+                            />
+                        </View>
+                    </Swipeable>
+                </Shadow>
             </Pressable>
-        </Swipeable>
+        </View>
     );
 };
 

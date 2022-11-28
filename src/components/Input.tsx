@@ -42,7 +42,7 @@ const Input: FunctionComponent<InputProps> = ({
                 style={{ fontFamily: bold ? 'RubikBold' : 'Rubik', ...style }}
                 cursorColor="rgb(59, 130, 246)"
                 underlineColorAndroid={showUnderline ? 'rgb(193, 201, 214)' : 'transparent'}
-                placeholderTextColor="rgb(156, 163, 175)"
+                placeholderTextColor="rgb(148, 163, 184)"
                 multiline={multiline}
             />
         </View>

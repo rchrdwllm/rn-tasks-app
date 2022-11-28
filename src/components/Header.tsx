@@ -8,14 +8,14 @@ const Header = () => {
         <View className="px-6">
             <View className="flex-row justify-between">
                 <Pressable>
-                    <Bars2Icon size={26} color="rgb(156, 163, 175)" />
+                    <Bars2Icon size={26} color="rgb(148, 163, 184)" />
                 </Pressable>
                 <View className="flex-row space-x-6">
                     <Pressable>
-                        <MagnifyingGlassIcon size={26} color="rgb(156, 163, 175)" />
+                        <MagnifyingGlassIcon size={26} color="rgb(148, 163, 184)" />
                     </Pressable>
                     <Pressable>
-                        <BellIcon size={26} color="rgb(156, 163, 175)" />
+                        <BellIcon size={26} color="rgb(148, 163, 184)" />
                     </Pressable>
                 </View>
             </View>

@@ -17,6 +17,7 @@
 -   [ ] Implement editing of categories
     -   [ ] Category name
     -   [ ] Category color
+-   [ ] Implement searching of tasks
 
 ## Notes
 

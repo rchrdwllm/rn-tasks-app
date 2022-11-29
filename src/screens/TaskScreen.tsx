@@ -71,13 +71,13 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
 
     return (
         <SafeAreaView
-            className={`flex-1 ${!completed ? 'pt-16' : ''}`}
+            className={`flex-1 `}
             style={{
                 backgroundColor: '#F9FAFF',
             }}
         >
             {completed && (
-                <View className="bg-blue-500 pt-14 pb-8 mb-6">
+                <View className="bg-blue-500 pt-14 pb-8">
                     <Text twStyle="text-white text-center">Task is done, congratulations!</Text>
                 </View>
             )}
@@ -97,7 +97,7 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                         paddingBottom: 24,
                     }}
                     ListHeaderComponent={
-                        <>
+                        <View className={`${!completed ? 'pt-16' : 'pt-8'}`}>
                             <View className="flex-row justify-between">
                                 <BackButton />
                                 <Pressable onPress={handleRemoveTask}>
@@ -199,7 +199,7 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                                     Subtasks
                                 </Text>
                             </View>
-                        </>
+                        </View>
                     }
                     ListFooterComponent={
                         <>

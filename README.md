@@ -12,7 +12,7 @@
     -   [x] Date and time
     -   [x] Categories
     -   [x] Subtasks
--   [ ] Implement menu
+-   [x] Implement menu
 -   [ ] Implement adding of categories
 -   [ ] Implement editing of categories
     -   [ ] Category name

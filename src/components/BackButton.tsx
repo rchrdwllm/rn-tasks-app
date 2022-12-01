@@ -9,15 +9,23 @@ import { useNavigation } from '@react-navigation/native';
 interface BackButtonProps {
     twStyle?: string;
     style?: {};
+    onPress?: () => void;
+    color?: string;
 }
 
-const BackButton: FunctionComponent<BackButtonProps> = ({ twStyle, style }) => {
+const BackButton: FunctionComponent<BackButtonProps> = ({ twStyle, style, onPress, color }) => {
     const navigation = useNavigation();
 
     return (
         <View className="flex-row">
-            <Pressable twStyle={twStyle} style={style} onPress={() => navigation.goBack()}>
-                <ChevronLeftIcon size={24} color="rgb(148, 163, 184)" />
+            <Pressable
+                twStyle={twStyle}
+                style={style}
+                onPress={() => {
+                    onPress ? onPress() : navigation.goBack();
+                }}
+            >
+                <ChevronLeftIcon size={24} color={color ? color : 'rgb(148, 163, 184)'} />
             </Pressable>
         </View>
     );

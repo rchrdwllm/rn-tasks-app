@@ -1,7 +1,6 @@
 import 'react-native-get-random-values';
 import type { DateData } from 'react-native-calendars';
 
-import { StatusBar } from 'expo-status-bar';
 import { setBackgroundColorAsync, setButtonStyleAsync } from 'expo-navigation-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/screens/HomeScreen';
@@ -12,6 +11,7 @@ import AddDateScreen from './src/screens/AddDateScreen';
 import EditDateScreen from './src/screens/EditDateScreen';
 import EditCategoryScreen from './src/screens/EditCategoryScreen';
 import CategoryScreen from './src/screens/CategoryScreen';
+import CategoriesScreen from './src/screens/CategoriesScreen';
 import { Provider } from 'react-redux';
 
 import {
@@ -39,6 +39,7 @@ type RootStackParamList = {
     };
     EditCategoryScreen: { currentCategories: string[]; id: string };
     CategoryScreen: { id: string };
+    CategoriesScreen: undefined;
 };
 
 export type TaskScreenProps = StackScreenProps<RootStackParamList, 'TaskScreen'>;
@@ -167,9 +168,22 @@ export default function App() {
                             },
                         }}
                     />
+                    <Stack.Screen
+                        name="CategoriesScreen"
+                        component={CategoriesScreen}
+                        options={{
+                            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                            gestureDirection: 'horizontal',
+                            gestureEnabled: true,
+                            headerShown: false,
+                            transitionSpec: {
+                                open: TransitionSpecs.TransitionIOSSpec,
+                                close: TransitionSpecs.TransitionIOSSpec,
+                            },
+                        }}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
-            <StatusBar style="auto" />
         </Provider>
     );
 }

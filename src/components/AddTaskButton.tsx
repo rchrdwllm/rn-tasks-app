@@ -1,24 +1,50 @@
+import { FunctionComponent, useEffect } from 'react';
+
 import Pressable from './Pressable';
 import { PlusIcon } from 'react-native-heroicons/outline';
 import { View } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 import { useNavigation } from '@react-navigation/native';
 
-const AddTaskButton = () => {
+interface AddTaskButtonProps {
+    shouldOpen: boolean;
+}
+
+const AddTaskButton: FunctionComponent<AddTaskButtonProps> = ({ shouldOpen }) => {
     const navigation = useNavigation();
+    const opacity = useSharedValue(1);
+
+    const buttonAnim = useAnimatedStyle(
+        () => ({
+            opacity: withTiming(opacity.value),
+        }),
+        []
+    );
+
+    useEffect(() => {
+        if (shouldOpen) {
+            opacity.value = 0;
+        } else {
+            opacity.value = 1;
+        }
+    });
 
     return (
         <>
-            <View
-                style={{
-                    position: 'absolute',
-                    bottom: 24,
-                    right: 24,
-                    elevation: 10,
-                    height: 65,
-                    width: 65,
-                }}
+            <Animated.View
+                style={[
+                    {
+                        position: 'absolute',
+                        bottom: 24,
+                        right: 24,
+                        elevation: 10,
+                        height: 65,
+                        width: 65,
+                    },
+                    buttonAnim,
+                ]}
             >
                 <Pressable onPress={() => navigation.navigate('NewTaskScreen')}>
                     <Shadow
@@ -40,7 +66,7 @@ const AddTaskButton = () => {
                         </View>
                     </Shadow>
                 </Pressable>
-            </View>
+            </Animated.View>
         </>
     );
 };

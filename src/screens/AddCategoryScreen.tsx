@@ -11,7 +11,7 @@ import Pressable from '../components/Pressable';
 import { useSelector } from 'react-redux';
 import { selectAllCategories } from '../redux/slices/categoriesSlice';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 const AddCategoryScreen = ({
     route: {
@@ -74,4 +74,4 @@ const AddCategoryScreen = ({
     );
 };
 
-export default AddCategoryScreen;
+export default memo(AddCategoryScreen);

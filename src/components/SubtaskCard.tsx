@@ -9,7 +9,7 @@ import { Swipeable } from 'react-native-gesture-handler';
 import Input from './Input';
 import { Shadow } from 'react-native-shadow-2';
 
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { useActions } from '../hooks/useActions';
 
 interface SubtaskCardProps {
@@ -130,4 +130,4 @@ const SubtaskCard: FunctionComponent<SubtaskCardProps> = ({ id, subtask, complet
     );
 };
 
-export default SubtaskCard;
+export default memo(SubtaskCard);

@@ -1,12 +1,13 @@
 import type { CategoryScreenProps } from '../../App';
 
 import { View, SafeAreaView, FlatList, Image } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import Text from '../components/Text';
 import BackButton from '../components/BackButton';
 import TaskCard from '../components/TaskCard';
 
 import { useSelector } from 'react-redux';
-import { Category, selectCategoryById } from '../redux/slices/categoriesSlice';
+import { selectCategoryById } from '../redux/slices/categoriesSlice';
 import { selectByCategory, Task } from '../redux/slices/tasksSlice';
 
 const CategoryScreen = ({
@@ -21,6 +22,8 @@ const CategoryScreen = ({
 
     const { category: name, color } = category;
 
+    const renderFunction = ({ item }: { item: Task }) => <TaskCard {...item} checkboxColor={color.color} />;
+
     return (
         <SafeAreaView
             className="flex-1"
@@ -29,26 +32,29 @@ const CategoryScreen = ({
             }}
         >
             <FlatList
-                contentContainerStyle={{
-                    paddingTop: 64,
-                }}
                 data={categoryTasks}
-                renderItem={({ item }) => <TaskCard {...item} checkboxColor={color.color} />}
+                renderItem={renderFunction}
                 keyExtractor={item => item.id}
                 ListHeaderComponent={
-                    <View className="px-6">
-                        <BackButton />
+                    <View
+                        className="px-6 pt-16 pb-6 mb-12"
+                        style={{
+                            backgroundColor: color.color,
+                        }}
+                    >
+                        <BackButton color={color.backgroundColor} />
                         <View className="mt-8">
                             <Text
-                                twStyle="uppercase text-slate-400"
+                                twStyle="uppercase"
                                 bold
                                 style={{
                                     letterSpacing: 2,
+                                    color: color.backgroundColor,
                                 }}
                             >
                                 {categoryTasks.length} {categoryTasks.length === 1 ? 'task' : 'tasks'} for
                             </Text>
-                            <Text twStyle="text-3xl mt-2 mb-8" bold>
+                            <Text twStyle="text-3xl mt-2 text-white" bold>
                                 {name}
                             </Text>
                         </View>
@@ -68,6 +74,7 @@ const CategoryScreen = ({
                     </View>
                 }
             />
+            <StatusBar style="light" />
         </SafeAreaView>
     );
 };

@@ -68,7 +68,7 @@ const TaskCard: FunctionComponent<TaskCardProps> = ({ id, checkboxColor }) => {
     };
 
     return (
-        <View className="-mt-8">
+        <View className="-mt-8 mb-8">
             <Pressable
                 onPress={() =>
                     navigation.navigate('TaskScreen', {
@@ -77,11 +77,6 @@ const TaskCard: FunctionComponent<TaskCardProps> = ({ id, checkboxColor }) => {
                 }
             >
                 <Shadow
-                    containerStyle={
-                        {
-                            // marginBottom: 32,
-                        }
-                    }
                     distance={10}
                     startColor={'#dbeafe24'}
                     endColor={'#ffffff00'}

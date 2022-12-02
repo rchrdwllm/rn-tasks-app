@@ -5,6 +5,7 @@ import Text from './Text';
 import Pressable from './Pressable';
 import { Shadow } from 'react-native-shadow-2';
 
+import { memo } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { selectByCategory, Task } from '../redux/slices/tasksSlice';
 import { selectCategoryById } from '../redux/slices/categoriesSlice';
@@ -64,4 +65,4 @@ const CategoryCard: FunctionComponent<CategoryCardProps> = ({ id }) => {
     );
 };
 
-export default CategoryCard;
+export default memo(CategoryCard);

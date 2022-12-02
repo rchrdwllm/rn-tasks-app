@@ -11,8 +11,10 @@ import { useNavigation } from '@react-navigation/native';
 import { selectCategoryIds } from '../redux/slices/categoriesSlice';
 
 const CategoriesScreen = () => {
-    const categories: string[] = useSelector(selectCategoryIds);
+    const categories = useSelector(selectCategoryIds);
     const navigation = useNavigation();
+
+    const renderFunction = ({ item }: { item: string }) => <CategoriesScreenCard id={item as string} />;
 
     return (
         <SafeAreaView
@@ -25,14 +27,14 @@ const CategoriesScreen = () => {
                 contentContainerStyle={{
                     paddingTop: 64,
                 }}
-                data={categories}
-                renderItem={({ item }) => <CategoriesScreenCard id={item} />}
-                keyExtractor={item => item}
+                data={categories as string[]}
+                renderItem={renderFunction}
+                keyExtractor={item => item as string}
                 ListHeaderComponent={
                     <View className="px-6">
                         <BackButton />
                         <View className="mt-8">
-                            <Text twStyle="text-3xl mt-2 mb-8" bold>
+                            <Text twStyle="text-3xl mt-2 mb-12" bold>
                                 Categories
                             </Text>
                         </View>

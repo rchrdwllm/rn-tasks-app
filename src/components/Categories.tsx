@@ -6,13 +6,14 @@ import Pressable from './Pressable';
 import { useSelector } from 'react-redux';
 import { selectCategoryIds } from '../redux/slices/categoriesSlice';
 import { useNavigation } from '@react-navigation/native';
-import { useEffect } from 'react';
 
 const Categories = () => {
     const categoryIds = useSelector(selectCategoryIds);
     const navigation = useNavigation();
 
     if (!categoryIds) return null;
+
+    const renderFunction = ({ item }: { item: string }) => <CategoryCard id={item} />;
 
     return (
         <View className="mt-6">
@@ -41,9 +42,9 @@ const Categories = () => {
             <FlatList
                 className="mt-6"
                 horizontal
-                data={categoryIds}
+                data={categoryIds as string[]}
                 keyExtractor={item => item as string}
-                renderItem={({ item, index }) => <CategoryCard id={item} index={index} />}
+                renderItem={renderFunction}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ paddingLeft: 24, paddingBottom: 24 }}
             />

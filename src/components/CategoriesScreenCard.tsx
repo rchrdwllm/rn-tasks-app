@@ -60,7 +60,7 @@ const CategoriesScreenCard: FunctionComponent<CategoriesScreenCardProps> = ({ id
     };
 
     return (
-        <View className="-mt-4">
+        <View className="-mt-8">
             <Pressable
                 onPress={() =>
                     navigation.navigate('CategoryScreen', {

@@ -1,3 +1,5 @@
+import type { Task } from '../redux/slices/tasksSlice';
+
 import { View, Platform, SafeAreaView, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Header from '../components/Header';
@@ -77,6 +79,8 @@ const HomeScreen = () => {
         return unsubscribe;
     }, [navigation]);
 
+    const renderFunction = ({ item }: { item: Task }) => <TaskCard {...item} />;
+
     return (
         <SafeAreaView className="flex-1 bg-blue-900">
             <Drawer onPress={() => setShouldOpen(!shouldOpen)} shouldOpen={shouldOpen} />
@@ -115,7 +119,7 @@ const HomeScreen = () => {
                     }
                     data={tasks}
                     keyExtractor={item => item.id}
-                    renderItem={({ item }) => <TaskCard {...item} />}
+                    renderItem={renderFunction}
                     contentContainerStyle={{
                         paddingTop: Platform.OS === 'android' ? 16 * 4 : 0,
                         paddingBottom: 24,

@@ -1,12 +1,15 @@
 import type { FunctionComponent } from 'react';
 
-import { View, Pressable } from 'react-native';
+import { View } from 'react-native';
+import Pressable from './Pressable';
 import Text from './Text';
 import { XMarkIcon } from 'react-native-heroicons/outline';
 
 import { useSelector } from 'react-redux';
 import { useActions } from '../hooks/useActions';
+import { useNavigation } from '@react-navigation/native';
 import { selectCategoryById } from '../redux/slices/categoriesSlice';
+import { memo } from 'react';
 
 interface LabelProps {
     id: string;
@@ -15,6 +18,7 @@ interface LabelProps {
 
 const Label: FunctionComponent<LabelProps> = ({ id, taskId }) => {
     const category = useSelector((state: any) => selectCategoryById(state, id));
+    const navigation = useNavigation();
     const { removeTaskCategory } = useActions();
 
     if (!category) return null;
@@ -29,8 +33,9 @@ const Label: FunctionComponent<LabelProps> = ({ id, taskId }) => {
     };
 
     return (
-        <View
-            className="flex-row items-center mb-2 px-2 py-1 rounded-md mr-2"
+        <Pressable
+            onPress={() => navigation.navigate('CategoryScreen', { id })}
+            twStyle="flex-row items-center mb-2 px-2 py-1 rounded-md mr-2"
             style={{
                 backgroundColor,
             }}
@@ -45,8 +50,8 @@ const Label: FunctionComponent<LabelProps> = ({ id, taskId }) => {
             <Pressable onPress={handleRemoveCategory} className="ml-1">
                 <XMarkIcon size={16} color={textColor} />
             </Pressable>
-        </View>
+        </Pressable>
     );
 };
 
-export default Label;
+export default memo(Label);

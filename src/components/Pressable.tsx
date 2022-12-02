@@ -3,6 +3,8 @@ import type { FunctionComponent, ReactNode } from 'react';
 import { Pressable as RNPressable } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
+import { memo } from 'react';
+
 interface PressableProps {
     children: ReactNode;
     onPress?: () => void;
@@ -54,4 +56,4 @@ const Pressable: FunctionComponent<PressableProps> = ({
     );
 };
 
-export default Pressable;
+export default memo(Pressable);

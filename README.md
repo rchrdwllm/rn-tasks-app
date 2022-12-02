@@ -13,11 +13,11 @@
     -   [x] Categories
     -   [x] Subtasks
 -   [x] Implement menu
--   [ ] Implement adding of categories
+-   [x] Implement adding of categories
+-   [x] Implement removing of categories
 -   [ ] Implement editing of categories
     -   [ ] Category name
     -   [ ] Category color
--   [ ] Implement removing of categories
 -   [ ] Implement searching of tasks
 
 ## Notes

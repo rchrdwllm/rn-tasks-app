@@ -11,7 +11,7 @@ import Pressable from '../components/Pressable';
 import { useSelector } from 'react-redux';
 import { selectCategoryIds } from '../redux/slices/categoriesSlice';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { useActions } from '../hooks/useActions';
 
 const EditCategoryScreen = ({
@@ -78,4 +78,4 @@ const EditCategoryScreen = ({
     );
 };
 
-export default EditCategoryScreen;
+export default memo(EditCategoryScreen);

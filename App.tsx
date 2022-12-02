@@ -1,5 +1,6 @@
 import 'react-native-get-random-values';
 import type { DateData } from 'react-native-calendars';
+import type { Color } from './src/screens/SelectCategoryColorScreen';
 
 import { setBackgroundColorAsync, setButtonStyleAsync } from 'expo-navigation-bar';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,6 +13,8 @@ import EditDateScreen from './src/screens/EditDateScreen';
 import EditCategoryScreen from './src/screens/EditCategoryScreen';
 import CategoryScreen from './src/screens/CategoryScreen';
 import CategoriesScreen from './src/screens/CategoriesScreen';
+import NewCategoryScreen from './src/screens/NewCategoryScreen';
+import SelectCategoryColorScreen from './src/screens/SelectCategoryColorScreen';
 import { Provider } from 'react-redux';
 
 import {
@@ -40,6 +43,8 @@ type RootStackParamList = {
     EditCategoryScreen: { currentCategories: string[]; id: string };
     CategoryScreen: { id: string };
     CategoriesScreen: undefined;
+    NewCategoryScreen: { selectedColor: Color };
+    SelectCategoryColorScreen: undefined;
 };
 
 export type TaskScreenProps = StackScreenProps<RootStackParamList, 'TaskScreen'>;
@@ -49,6 +54,7 @@ export type AddDateScreenProps = StackScreenProps<RootStackParamList, 'AddDateSc
 export type EditDateScreenProps = StackScreenProps<RootStackParamList, 'EditDateScreen'>;
 export type EditCategoryScreenProps = StackScreenProps<RootStackParamList, 'EditCategoryScreen'>;
 export type CategoryScreenProps = StackScreenProps<RootStackParamList, 'CategoryScreen'>;
+export type NewCategoryScreenProps = StackScreenProps<RootStackParamList, 'NewCategoryScreen'>;
 
 export default function App() {
     const Stack = createStackNavigator<RootStackParamList>();
@@ -174,6 +180,34 @@ export default function App() {
                         options={{
                             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                             gestureDirection: 'horizontal',
+                            gestureEnabled: true,
+                            headerShown: false,
+                            transitionSpec: {
+                                open: TransitionSpecs.TransitionIOSSpec,
+                                close: TransitionSpecs.TransitionIOSSpec,
+                            },
+                        }}
+                    />
+                    <Stack.Screen
+                        name="NewCategoryScreen"
+                        component={NewCategoryScreen}
+                        options={{
+                            cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                            gestureDirection: 'vertical',
+                            gestureEnabled: true,
+                            headerShown: false,
+                            transitionSpec: {
+                                open: TransitionSpecs.TransitionIOSSpec,
+                                close: TransitionSpecs.TransitionIOSSpec,
+                            },
+                        }}
+                    />
+                    <Stack.Screen
+                        name="SelectCategoryColorScreen"
+                        component={SelectCategoryColorScreen}
+                        options={{
+                            cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+                            gestureDirection: 'vertical',
                             gestureEnabled: true,
                             headerShown: false,
                             transitionSpec: {

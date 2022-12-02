@@ -7,33 +7,21 @@ import { Shadow } from 'react-native-shadow-2';
 
 import { useNavigation } from '@react-navigation/native';
 import { selectByCategory, Task } from '../redux/slices/tasksSlice';
+import { selectCategoryById } from '../redux/slices/categoriesSlice';
 import { useSelector } from 'react-redux';
 
 interface CategoryCardProps {
-    name: string;
-    category: string;
-    color: string;
-    index: number;
     id: string;
 }
 
-/* 
-containerStyle={{
-                            marginBottom: 32,
-                        }}
-                        distance={15}
-                        startColor={'#dbeafe50'}
-                        endColor={'#ffffff00'}
-                        offset={[0, 15]}
-                        style={{
-                            borderRadius: 20,
-                        }}
-                        stretch
-*/
-
-const CategoryCard: FunctionComponent<CategoryCardProps> = ({ name, color, index, id }) => {
+const CategoryCard: FunctionComponent<CategoryCardProps> = ({ id }) => {
     const navigation = useNavigation();
+    const category = useSelector((state: any) => selectCategoryById(state, id));
     const categoryTasks: Task[] = useSelector((state: any) => selectByCategory(state, id));
+
+    if (!category) return null;
+
+    const { category: name, color } = category;
 
     return (
         <View>
@@ -65,7 +53,7 @@ const CategoryCard: FunctionComponent<CategoryCardProps> = ({ name, color, index
                             <View
                                 className="flex-1"
                                 style={{
-                                    backgroundColor: color,
+                                    backgroundColor: color.color,
                                 }}
                             ></View>
                         </View>

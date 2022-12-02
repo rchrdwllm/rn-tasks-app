@@ -14,6 +14,7 @@ import { useState, useEffect } from 'react';
 import { selectTasks } from '../redux/slices/tasksSlice';
 import { setBackgroundColorAsync, setButtonStyleAsync } from 'expo-navigation-bar';
 import { useWindowDimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
     const tasks = useSelector(selectTasks);
@@ -22,6 +23,7 @@ const HomeScreen = () => {
     const borderRadius = useSharedValue(0);
     const xValue = useSharedValue(0);
     const { width } = useWindowDimensions();
+    const navigation = useNavigation();
 
     const drawerAnim = useAnimatedStyle(
         () => ({
@@ -64,6 +66,16 @@ const HomeScreen = () => {
             setButtonStyleAsync('dark');
         }
     }, [shouldOpen]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('blur', () => {
+            setTimeout(() => {
+                setShouldOpen(false);
+            }, 500);
+        });
+
+        return unsubscribe;
+    }, [navigation]);
 
     return (
         <SafeAreaView className="flex-1 bg-blue-900">

@@ -9,7 +9,7 @@ import AddCategoryCard from '../components/AddCategoryCard';
 import Pressable from '../components/Pressable';
 
 import { useSelector } from 'react-redux';
-import { selectCategories } from '../redux/slices/categoriesSlice';
+import { selectAllCategories } from '../redux/slices/categoriesSlice';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 
@@ -18,7 +18,7 @@ const AddCategoryScreen = ({
         params: { selectedCategories: savedCategories, selectedDay },
     },
 }: AddCategoryScreenProps) => {
-    const categories: Category[] = useSelector(selectCategories);
+    const categories: Category[] = useSelector(selectAllCategories);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const navigation = useNavigation();
 

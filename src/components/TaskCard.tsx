@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useActions } from '../hooks/useActions';
 import { useSelector } from 'react-redux';
 import { selectTask, Task } from '../redux/slices/tasksSlice';
-import { Category, selectCategory } from '../redux/slices/categoriesSlice';
+import { selectCategoryById } from '../redux/slices/categoriesSlice';
 
 interface TaskCardProps {
     id: string;
@@ -27,7 +27,7 @@ const TaskCard: FunctionComponent<TaskCardProps> = ({ id, checkboxColor }) => {
 
     const { title, completed, categories } = task;
 
-    const category: Category = useSelector((state: any) => selectCategory(state, categories[0]));
+    const category = useSelector((state: any) => selectCategoryById(state, categories[0]));
 
     const handleCheckTask = () => {
         if (!completed) {
@@ -77,9 +77,11 @@ const TaskCard: FunctionComponent<TaskCardProps> = ({ id, checkboxColor }) => {
                 }
             >
                 <Shadow
-                    containerStyle={{
-                        marginBottom: 32,
-                    }}
+                    containerStyle={
+                        {
+                            // marginBottom: 32,
+                        }
+                    }
                     distance={10}
                     startColor={'#dbeafe24'}
                     endColor={'#ffffff00'}
@@ -99,7 +101,13 @@ const TaskCard: FunctionComponent<TaskCardProps> = ({ id, checkboxColor }) => {
                         <View className="flex-row items-center bg-white rounded-3xl p-5 mt-2">
                             <Checkbox.Android
                                 status={completed ? 'checked' : 'unchecked'}
-                                color={checkboxColor ? checkboxColor : category ? category.color : 'rgb(156, 163, 175)'}
+                                color={
+                                    checkboxColor
+                                        ? checkboxColor
+                                        : category
+                                        ? category.color.color
+                                        : 'rgb(156, 163, 175)'
+                                }
                                 onPress={handleCheckTask}
                                 style={{
                                     borderRadius: 100,

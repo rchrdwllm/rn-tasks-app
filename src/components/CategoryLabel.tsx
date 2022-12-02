@@ -6,7 +6,7 @@ import { XMarkIcon } from 'react-native-heroicons/outline';
 
 import { useSelector } from 'react-redux';
 import { useActions } from '../hooks/useActions';
-import { selectCategory } from '../redux/slices/categoriesSlice';
+import { selectCategoryById } from '../redux/slices/categoriesSlice';
 
 interface LabelProps {
     id: string;
@@ -14,12 +14,15 @@ interface LabelProps {
 }
 
 const Label: FunctionComponent<LabelProps> = ({ id, taskId }) => {
-    const category = useSelector((state: any) => selectCategory(state, id));
+    const category = useSelector((state: any) => selectCategoryById(state, id));
     const { removeTaskCategory } = useActions();
 
     if (!category) return null;
 
-    const { name, backgroundColor, textColor } = category;
+    const {
+        category: name,
+        color: { backgroundColor, textColor },
+    } = category;
 
     const handleRemoveCategory = () => {
         removeTaskCategory({ taskId, categoryId: id });

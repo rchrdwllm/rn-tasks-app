@@ -9,7 +9,7 @@ import AddCategoryCard from '../components/AddCategoryCard';
 import Pressable from '../components/Pressable';
 
 import { useSelector } from 'react-redux';
-import { selectCategories } from '../redux/slices/categoriesSlice';
+import { selectCategoryIds } from '../redux/slices/categoriesSlice';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { useActions } from '../hooks/useActions';
@@ -19,7 +19,7 @@ const EditCategoryScreen = ({
         params: { id, currentCategories },
     },
 }: EditCategoryScreenProps) => {
-    const categories: Category[] = useSelector(selectCategories);
+    const categoryIds = useSelector(selectCategoryIds);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const navigation = useNavigation();
     const { editCategories } = useActions();
@@ -41,11 +41,11 @@ const EditCategoryScreen = ({
                 Edit categories
             </Text>
             <FlatList
-                data={categories}
-                keyExtractor={item => item.id}
+                data={categoryIds}
+                keyExtractor={item => item as string}
                 renderItem={({ item }) => (
                     <AddCategoryCard
-                        {...item}
+                        id={item as any}
                         savedCategories={currentCategories}
                         setSelectedCategories={setSelectedCategories}
                     />

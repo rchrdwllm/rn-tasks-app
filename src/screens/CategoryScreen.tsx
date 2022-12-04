@@ -74,7 +74,7 @@ const CategoryScreen = ({
                     </View>
                 }
             />
-            <StatusBar style="light" />
+            <StatusBar backgroundColor={color.color} style="light" />
         </SafeAreaView>
     );
 };

@@ -152,7 +152,7 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                                                 id,
                                             })
                                         }
-                                        twStyle="flex-row items-center bg-slate-100 px-2 py-1 rounded-md"
+                                        twStyle="flex-row items-center bg-slate-100 px-2 py-1 rounded-md mb-2"
                                     >
                                         <PlusSmallIcon size={16} color="rgb(100, 116, 139)" />
                                         <Text twStyle="text-slate-600"> Add</Text>

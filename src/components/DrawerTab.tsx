@@ -20,7 +20,7 @@ const DrawerTab: FunctionComponent<DrawerTabProps> = ({ Icon, label, route }) =>
             <Pressable
                 onPress={() => navigation.navigate(route)}
                 scale={0.97}
-                twStyle="mt-2 flex-row items-center space-x-4 py-3 px-4 rounded-lg"
+                twStyle="flex-row items-center space-x-4 py-3 px-4 rounded-lg"
             >
                 <Icon size={20} color="#bfdbfe84" />
                 <View>

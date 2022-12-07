@@ -32,13 +32,6 @@ export const colors: Color[] = [
     },
     {
         id: v4(),
-        color: '#a8a29e',
-        backgroundColor: '#f5f5f4',
-        textColor: '#a8a29e',
-        name: 'Stone',
-    },
-    {
-        id: v4(),
         color: '#f87171',
         backgroundColor: '#fee2e2',
         textColor: '#dc2626',

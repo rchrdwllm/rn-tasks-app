@@ -8,7 +8,7 @@ import { Swipeable } from 'react-native-gesture-handler';
 import { TrashIcon } from 'react-native-heroicons/outline';
 
 import { useNavigation } from '@react-navigation/native';
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { useActions } from '../hooks/useActions';
 import { selectByCategory } from '../redux/slices/tasksSlice';
@@ -109,4 +109,4 @@ const CategoriesScreenCard: FunctionComponent<CategoriesScreenCardProps> = ({ id
     );
 };
 
-export default CategoriesScreenCard;
+export default memo(CategoriesScreenCard);

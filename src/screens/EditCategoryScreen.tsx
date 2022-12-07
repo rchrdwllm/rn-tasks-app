@@ -1,4 +1,3 @@
-import type { Category } from '../redux/slices/categoriesSlice';
 import type { EditCategoryScreenProps } from '../../App';
 
 import { View } from 'react-native';
@@ -7,6 +6,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import AddCategoryCard from '../components/AddCategoryCard';
 import Pressable from '../components/Pressable';
+import DownButton from '../components/DownButton';
 
 import { useSelector } from 'react-redux';
 import { selectCategoryIds } from '../redux/slices/categoriesSlice';
@@ -37,9 +37,12 @@ const EditCategoryScreen = ({
                 backgroundColor: '#F9FAFF',
             }}
         >
-            <Text twStyle="pt-10 text-center text-xl" bold>
-                Edit categories
-            </Text>
+            <View className="flex-row items-center justify-between pt-10 px-6 pb-4">
+                <Text twStyle="text-center text-xl" bold>
+                    Edit categories
+                </Text>
+                <DownButton />
+            </View>
             <FlatList
                 data={categoryIds}
                 keyExtractor={item => item as string}
@@ -51,9 +54,10 @@ const EditCategoryScreen = ({
                     />
                 )}
                 contentContainerStyle={{
-                    paddingTop: 24,
-                    paddingHorizontal: 32,
+                    padding: 24,
+                    paddingBottom: 124,
                 }}
+                className="-mt-4"
             />
             <View
                 style={{
@@ -61,7 +65,7 @@ const EditCategoryScreen = ({
                     bottom: 24,
                     height: 65,
                     width: '100%',
-                    paddingHorizontal: 32,
+                    paddingHorizontal: 24,
                 }}
             >
                 <Pressable

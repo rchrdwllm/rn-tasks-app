@@ -50,7 +50,7 @@ const NewCategoryScreen = ({
                 }}
             >
                 <Text twStyle="text-lg text-center" bold>
-                    New task
+                    New category
                 </Text>
             </View>
             <View className="flex-1 justify-center px-12 -mt-20">

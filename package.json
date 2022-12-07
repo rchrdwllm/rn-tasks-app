@@ -23,6 +23,7 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
+    "react-native-big-list": "^1.6.0",
     "react-native-calendars": "^1.1291.1",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-get-random-values": "~1.8.0",

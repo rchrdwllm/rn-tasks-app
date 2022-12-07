@@ -1,12 +1,13 @@
 import type { Category } from '../redux/slices/categoriesSlice';
 import type { AddCategoryScreenProps } from '../../App';
 
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import Text from '../components/Text';
 import { FlatList } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import AddCategoryCard from '../components/AddCategoryCard';
 import Pressable from '../components/Pressable';
+import DownButton from '../components/DownButton';
 
 import { useSelector } from 'react-redux';
 import { selectAllCategories } from '../redux/slices/categoriesSlice';
@@ -33,9 +34,12 @@ const AddCategoryScreen = ({
                 backgroundColor: '#F9FAFF',
             }}
         >
-            <Text twStyle="pt-10 text-center text-xl" bold>
-                Add categories
-            </Text>
+            <View className="flex-row items-center justify-between pt-10 px-6 pb-4">
+                <Text twStyle="text-center text-xl" bold>
+                    Add categories
+                </Text>
+                <DownButton />
+            </View>
             <FlatList
                 data={categories}
                 keyExtractor={item => item.id}
@@ -47,9 +51,21 @@ const AddCategoryScreen = ({
                     />
                 )}
                 contentContainerStyle={{
-                    paddingTop: 24,
-                    paddingHorizontal: 32,
+                    padding: 24,
                 }}
+                ListEmptyComponent={
+                    <View className="flex-1 justify-center items-center mt-20">
+                        <Image
+                            source={require('../../assets/complete-tasks.png')}
+                            style={{
+                                height: 200,
+                                width: 200,
+                                resizeMode: 'contain',
+                            }}
+                        />
+                        <Text twStyle="mt-6 text-slate-400">No categories here. Maybe add some first?</Text>
+                    </View>
+                }
             />
             <View
                 style={{
@@ -57,7 +73,7 @@ const AddCategoryScreen = ({
                     bottom: 24,
                     height: 65,
                     width: '100%',
-                    paddingHorizontal: 32,
+                    paddingHorizontal: 24,
                 }}
             >
                 <Pressable

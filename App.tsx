@@ -109,8 +109,6 @@ export default function App() {
                         component={AddCategoryScreen}
                         options={{
                             cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
-                            gestureDirection: 'vertical',
-                            gestureEnabled: true,
                             headerShown: false,
                             transitionSpec: {
                                 open: TransitionSpecs.TransitionIOSSpec,
@@ -151,8 +149,6 @@ export default function App() {
                         component={EditCategoryScreen}
                         options={{
                             cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
-                            gestureDirection: 'vertical',
-                            gestureEnabled: true,
                             headerShown: false,
                             transitionSpec: {
                                 open: TransitionSpecs.TransitionIOSSpec,
@@ -207,8 +203,6 @@ export default function App() {
                         component={SelectCategoryColorScreen}
                         options={{
                             cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
-                            gestureDirection: 'vertical',
-                            gestureEnabled: true,
                             headerShown: false,
                             transitionSpec: {
                                 open: TransitionSpecs.TransitionIOSSpec,

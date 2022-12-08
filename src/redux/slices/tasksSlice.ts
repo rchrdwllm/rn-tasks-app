@@ -129,9 +129,24 @@ export const {
     editCategories,
     removeTaskCategory,
 } = tasksSlice.actions;
-export const selectTasks = (state: any) => state.tasks;
-export const selectTask = (state: any, id: string) => state.tasks.find((task: Task) => task.id === id);
+export const selectTasks = (state: any) =>
+    (state.tasks as Task[]).sort((a, b) => a.date.dateString.localeCompare(b.date.dateString));
+export const selectTask = (state: any, id: string) => (state.tasks as Task[]).find((task: Task) => task.id === id);
 export const selectByCategory = (state: any, id: string) =>
-    state.tasks.filter((task: Task) => task.categories.includes(id));
+    (state.tasks as Task[])
+        .filter((task: Task) => task.categories.includes(id))
+        .sort((a, b) => a.date.dateString.localeCompare(b.date.dateString));
+export const selectCompletedCategoryTasks = (state: any, id: string) =>
+    (state.tasks as Task[])
+        .filter((task: Task) => task.categories.includes(id) && task.completed)
+        .sort((a, b) => a.date.dateString.localeCompare(b.date.dateString));
+export const selectTodayTasks = (state: any, dateString: string) =>
+    (state.tasks as Task[])
+        .filter((task: Task) => task.date.dateString === dateString)
+        .sort((a, b) => a.date.dateString.localeCompare(b.date.dateString));
+export const selectUpcomingTasks = (state: any, dateString: string) =>
+    (state.tasks as Task[])
+        .filter((task: Task) => task.date.dateString > dateString)
+        .sort((a, b) => a.date.dateString.localeCompare(b.date.dateString));
 
 export default tasksSlice.reducer;

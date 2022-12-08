@@ -1,12 +1,13 @@
 import { FunctionComponent, ReactNode, useRef } from 'react';
 
-import { Animated, View } from 'react-native';
+import { Animated as RNAnimated, View } from 'react-native';
 import Text from './Text';
 import Pressable from './Pressable';
 import { Checkbox } from 'react-native-paper';
 import { Swipeable } from 'react-native-gesture-handler';
 import { TrashIcon } from 'react-native-heroicons/outline';
 import { Shadow } from 'react-native-shadow-2';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 import { useNavigation } from '@react-navigation/native';
 import { useActions } from '../hooks/useActions';
@@ -24,16 +25,28 @@ const TaskCard: FunctionComponent<TaskCardProps> = ({ id, checkboxColor }) => {
     const { checkTask, uncheckTask, removeTask } = useActions();
     const task: Task = useSelector((state: any) => selectTask(state, id));
     const swipeableRef = useRef<Swipeable>(null);
+    const color = useSharedValue('rgb(15, 23, 42)');
 
     const { title, completed, categories } = task;
 
     const category = useSelector((state: any) => selectCategoryById(state, categories[0]));
 
+    const colorAnim = useAnimatedStyle(
+        () => ({
+            color: withTiming(color.value),
+        }),
+        []
+    );
+
     const handleCheckTask = () => {
         if (!completed) {
             checkTask({ taskId: id });
+
+            color.value = 'rgba(148, 163, 184, 0.493)';
         } else {
             uncheckTask({ taskId: id });
+
+            color.value = 'rgb(15, 23, 42)';
         }
     };
 
@@ -55,14 +68,14 @@ const TaskCard: FunctionComponent<TaskCardProps> = ({ id, checkboxColor }) => {
 
         return (
             <Pressable onPress={handleDeleteTask} twStyle="flex-1 bg-red-500 mr-6 w-20 mt-2 rounded-3xl">
-                <Animated.View
+                <RNAnimated.View
                     style={{
                         transform: [{ scale: scale }],
                     }}
                     className="flex-1 justify-center items-center"
                 >
                     <TrashIcon size={24} color="white" />
-                </Animated.View>
+                </RNAnimated.View>
             </Pressable>
         );
     };
@@ -108,7 +121,9 @@ const TaskCard: FunctionComponent<TaskCardProps> = ({ id, checkboxColor }) => {
                                     borderRadius: 100,
                                 }}
                             />
-                            <Text twStyle="text-lg ml-2">{title}</Text>
+                            <Text twStyle="text-lg ml-2" animated animatedStyle={colorAnim}>
+                                {title}
+                            </Text>
                         </View>
                     </Swipeable>
                 </Shadow>

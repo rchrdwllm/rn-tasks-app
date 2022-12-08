@@ -1,13 +1,14 @@
-import type { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 
 import { View } from 'react-native';
 import Text from './Text';
 import Pressable from './Pressable';
 import { Shadow } from 'react-native-shadow-2';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
-import { memo } from 'react';
+import { memo, useState, useMemo } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { selectByCategory, Task } from '../redux/slices/tasksSlice';
+import { selectByCategory, selectCompletedCategoryTasks, Task } from '../redux/slices/tasksSlice';
 import { selectCategoryById } from '../redux/slices/categoriesSlice';
 import { useSelector } from 'react-redux';
 
@@ -19,10 +20,24 @@ const CategoryCard: FunctionComponent<CategoryCardProps> = ({ id }) => {
     const navigation = useNavigation();
     const category = useSelector((state: any) => selectCategoryById(state, id));
     const categoryTasks: Task[] = useSelector((state: any) => selectByCategory(state, id));
+    const completedCategoryTasks: Task[] = useSelector((state: any) => selectCompletedCategoryTasks(state, id));
+    const [viewWidth, setViewWidth] = useState(0);
+    const progress = useSharedValue(-136);
 
     if (!category) return null;
 
     const { category: name, color } = category;
+
+    const progressAnim = useAnimatedStyle(
+        () => ({
+            width: withTiming(progress.value, { duration: 500 }),
+        }),
+        []
+    );
+
+    useEffect(() => {
+        progress.value = (completedCategoryTasks.length / categoryTasks.length) * viewWidth;
+    }, [completedCategoryTasks, categoryTasks, viewWidth]);
 
     return (
         <View>
@@ -50,13 +65,19 @@ const CategoryCard: FunctionComponent<CategoryCardProps> = ({ id }) => {
                         <Text twStyle="text-2xl mt-1" bold>
                             {name}
                         </Text>
-                        <View className="mt-2 rounded-full h-1 overflow-hidden">
-                            <View
-                                className="flex-1"
-                                style={{
-                                    backgroundColor: color.color,
-                                }}
-                            ></View>
+                        <View
+                            onLayout={e => setViewWidth(e.nativeEvent.layout.width)}
+                            className="mt-2 rounded-full h-1 overflow-hidden"
+                        >
+                            <Animated.View
+                                className="h-1 flex-1"
+                                style={[
+                                    {
+                                        backgroundColor: color.color,
+                                    },
+                                    progressAnim,
+                                ]}
+                            ></Animated.View>
                         </View>
                     </View>
                 </Shadow>

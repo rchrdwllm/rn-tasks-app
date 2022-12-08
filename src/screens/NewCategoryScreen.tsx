@@ -7,7 +7,7 @@ import Input from '../components/Input';
 import Pressable from '../components/Pressable';
 
 import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import { useActions } from '../hooks/useActions';
 import { v4 } from 'uuid';
 import { Shadow } from 'react-native-shadow-2';
@@ -36,7 +36,7 @@ const NewCategoryScreen = ({
             category: name,
         });
 
-        navigation.navigate('CategoriesScreen');
+        navigation.navigate('HomeScreen');
     };
 
     return (

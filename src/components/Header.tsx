@@ -6,7 +6,7 @@ import { Bars2Icon, MagnifyingGlassIcon, BellIcon } from 'react-native-heroicons
 import Text from './Text';
 
 interface HeaderProps {
-    onPress: () => void;
+    onPress: (e?: any) => void;
 }
 
 const Header: FunctionComponent<HeaderProps> = ({ onPress }) => {

@@ -68,7 +68,7 @@ const CategoriesScreen = () => {
                     </View>
                 }
             />
-            <StatusBar style="dark" backgroundColor="#F9FAFF" />
+            <StatusBar style="dark" />
         </SafeAreaView>
     );
 };

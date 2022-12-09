@@ -36,7 +36,7 @@ const NewCategoryScreen = ({
             category: name,
         });
 
-        navigation.navigate('HomeScreen');
+        navigation.goBack();
     };
 
     return (

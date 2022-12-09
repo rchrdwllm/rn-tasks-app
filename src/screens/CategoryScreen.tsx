@@ -5,10 +5,12 @@ import { StatusBar } from 'expo-status-bar';
 import Text from '../components/Text';
 import BackButton from '../components/BackButton';
 import TaskCard from '../components/TaskCard';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 import { selectCategoryById } from '../redux/slices/categoriesSlice';
-import { selectByCategory, Task } from '../redux/slices/tasksSlice';
+import { selectByCategory, selectCompletedCategoryTasks, Task } from '../redux/slices/tasksSlice';
 
 const CategoryScreen = ({
     route: {
@@ -17,12 +19,26 @@ const CategoryScreen = ({
 }: CategoryScreenProps) => {
     const category = useSelector((state: any) => selectCategoryById(state, id));
     const categoryTasks: Task[] = useSelector((state: any) => selectByCategory(state, id));
+    const completedCategoryTasks: Task[] = useSelector((state: any) => selectCompletedCategoryTasks(state, id));
+    const [viewWidth, setViewWidth] = useState(0);
+    const progress = useSharedValue(0);
 
     if (!category) return null;
 
     const { category: name, color } = category;
 
     const renderFunction = ({ item }: { item: Task }) => <TaskCard {...item} checkboxColor={color.color} />;
+
+    const progressAnim = useAnimatedStyle(
+        () => ({
+            width: withTiming(progress.value, { duration: 500 }),
+        }),
+        []
+    );
+
+    useEffect(() => {
+        progress.value = (completedCategoryTasks.length / categoryTasks.length) * viewWidth;
+    }, [completedCategoryTasks, categoryTasks, viewWidth]);
 
     return (
         <SafeAreaView
@@ -57,6 +73,12 @@ const CategoryScreen = ({
                             <Text twStyle="text-3xl mt-2 text-white" bold>
                                 {name}
                             </Text>
+                            <View
+                                onLayout={e => setViewWidth(e.nativeEvent.layout.width)}
+                                className="mt-2 rounded-full h-1 overflow-hidden"
+                            >
+                                <Animated.View className="h-1 flex-1 bg-white" style={progressAnim}></Animated.View>
+                            </View>
                         </View>
                     </View>
                 }
@@ -74,7 +96,7 @@ const CategoryScreen = ({
                     </View>
                 }
             />
-            <StatusBar backgroundColor={color.color} style="light" />
+            <StatusBar style="light" />
         </SafeAreaView>
     );
 };

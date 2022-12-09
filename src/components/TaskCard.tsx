@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, useRef } from 'react';
+import { FunctionComponent, ReactNode, useEffect, useRef } from 'react';
 
 import { Animated as RNAnimated, View } from 'react-native';
 import Text from './Text';
@@ -23,9 +23,11 @@ interface TaskCardProps {
 const TaskCard: FunctionComponent<TaskCardProps> = ({ id, checkboxColor }) => {
     const navigation = useNavigation();
     const { checkTask, uncheckTask, removeTask } = useActions();
-    const task: Task = useSelector((state: any) => selectTask(state, id));
+    const task: Task | undefined = useSelector((state: any) => selectTask(state, id));
     const swipeableRef = useRef<Swipeable>(null);
     const color = useSharedValue('rgb(15, 23, 42)');
+
+    if (!task) return null;
 
     const { title, completed, categories } = task;
 
@@ -38,15 +40,23 @@ const TaskCard: FunctionComponent<TaskCardProps> = ({ id, checkboxColor }) => {
         []
     );
 
+    useEffect(() => {
+        if (completed) {
+            color.value = 'rgba(148, 163, 184, 0.493)';
+        } else {
+            color.value = 'rgb(15, 23, 42)';
+        }
+    }, [completed]);
+
     const handleCheckTask = () => {
         if (!completed) {
             checkTask({ taskId: id });
 
-            color.value = 'rgba(148, 163, 184, 0.493)';
+            // color.value = 'rgba(148, 163, 184, 0.493)';
         } else {
             uncheckTask({ taskId: id });
 
-            color.value = 'rgb(15, 23, 42)';
+            // color.value = 'rgb(15, 23, 42)';
         }
     };
 

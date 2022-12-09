@@ -1,5 +1,4 @@
 import type { FunctionComponent } from 'react';
-import type { Category } from '../redux/slices/categoriesSlice';
 
 import Pressable from './Pressable';
 import { View } from 'react-native';
@@ -10,7 +9,8 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCategoryById } from '../redux/slices/categoriesSlice';
 
-interface AddCategoryCardProps extends Category {
+interface AddCategoryCardProps {
+    id: string;
     setSelectedCategories: any;
     savedCategories: string[];
 }

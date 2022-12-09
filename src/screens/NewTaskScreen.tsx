@@ -7,6 +7,7 @@ import Input from '../components/Input';
 import Pressable from '../components/Pressable';
 import { CalendarIcon, ArrowRightIcon, XMarkIcon } from 'react-native-heroicons/outline';
 import { FlatList } from 'react-native';
+import CategoryIndicator from '../components/CategoryIndicator';
 
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
@@ -118,7 +119,18 @@ const NewTaskScreen = ({
                                     twStyle="rounded-full p-4 border-gray-100"
                                     style={{ borderWidth: 2 }}
                                 >
-                                    <View className="bg-blue-400 rounded-full" style={{ height: 20, width: 20 }}></View>
+                                    <FlatList
+                                        data={selectedCategories}
+                                        horizontal
+                                        renderItem={({ item, index }) => <CategoryIndicator id={item} index={index} />}
+                                        keyExtractor={item => item}
+                                        ListEmptyComponent={
+                                            <View
+                                                className="rounded-full bg-gray-400"
+                                                style={{ height: 20, width: 20 }}
+                                            ></View>
+                                        }
+                                    />
                                 </Pressable>
                             </View>
                             <Input

@@ -8,6 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import AddCategoryCard from '../components/AddCategoryCard';
 import Pressable from '../components/Pressable';
 import DownButton from '../components/DownButton';
+import { PlusIcon } from 'react-native-heroicons/outline';
 
 import { useSelector } from 'react-redux';
 import { selectAllCategories } from '../redux/slices/categoriesSlice';
@@ -53,6 +54,20 @@ const AddCategoryScreen = ({
                 contentContainerStyle={{
                     padding: 24,
                 }}
+                ListFooterComponent={
+                    <View>
+                        <Pressable scale={0.97} onPress={() => navigation.navigate('NewCategoryScreen')}>
+                            <View className="flex-row items-center space-x-3 rounded-3xl p-5 mt-2">
+                                <View>
+                                    <PlusIcon size={16} color="rgb(148, 163, 184)" />
+                                </View>
+                                <View>
+                                    <Text twStyle="text-slate-400">Add category</Text>
+                                </View>
+                            </View>
+                        </Pressable>
+                    </View>
+                }
                 ListEmptyComponent={
                     <View className="flex-1 justify-center items-center mt-20">
                         <Image

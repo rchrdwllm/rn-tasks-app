@@ -25,7 +25,7 @@ const Drawer: FunctionComponent<DrawerProps> = ({ onPress, shouldOpen }) => {
     const opacity = useSharedValue(0);
     const xValue = useSharedValue(-100);
     const navigation = useNavigation();
-    const user = useAuth();
+    const [user] = useAuth();
 
     const drawerAnim = useAnimatedStyle(
         () => ({

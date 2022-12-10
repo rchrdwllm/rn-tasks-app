@@ -11,6 +11,7 @@ import SubtaskCard from '../../components/SubtaskCard';
 import Pressable from '../../components/Pressable';
 import { CheckIcon, XMarkIcon, TrashIcon, PlusSmallIcon, ArrowRightIcon } from 'react-native-heroicons/outline';
 import Input from '../../components/Input';
+import { Shadow } from 'react-native-shadow-2';
 
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -252,14 +253,25 @@ const TaskScreen = ({ route }: TaskScreenProps) => {
                     width: 65,
                 }}
             >
-                <Pressable
-                    twStyle="justify-center items-center rounded-full h-[65] w-[65] bg-blue-500"
-                    style={{
-                        elevation: 10,
-                    }}
-                    onPress={handleCheckTask}
-                >
-                    {completed ? <XMarkIcon size={28} color="white" /> : <CheckIcon size={28} color="white" />}
+                <Pressable onPress={handleCheckTask}>
+                    <Shadow
+                        containerStyle={{
+                            marginBottom: 32,
+                        }}
+                        distance={20}
+                        startColor={'#67a1ff73'}
+                        endColor={'#ffffff00'}
+                        offset={[7, 20]}
+                        style={{
+                            borderRadius: 100,
+                            height: 50,
+                            width: 50,
+                        }}
+                    >
+                        <View className="justify-center items-center rounded-full h-[65] w-[65] bg-blue-500">
+                            {completed ? <XMarkIcon size={28} color="white" /> : <CheckIcon size={28} color="white" />}
+                        </View>
+                    </Shadow>
                 </Pressable>
             </View>
             <StatusBar style={completed ? 'light' : 'dark'} />

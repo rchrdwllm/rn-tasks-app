@@ -12,7 +12,7 @@ interface HeaderProps {
 }
 
 const Header: FunctionComponent<HeaderProps> = ({ onPress }) => {
-    const user = useAuth();
+    const [user] = useAuth();
 
     if (!user) return null;
 

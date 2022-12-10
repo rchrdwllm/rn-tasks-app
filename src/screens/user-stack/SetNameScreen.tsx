@@ -14,7 +14,7 @@ import { updateProfile } from 'firebase/auth';
 const SetNameScreen = () => {
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);
-    const user = useAuth();
+    const [user] = useAuth();
     const navigation = useNavigation();
 
     const handleUpdateName = () => {

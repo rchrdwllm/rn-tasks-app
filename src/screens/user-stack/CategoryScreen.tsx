@@ -6,11 +6,16 @@ import Text from '../../components/Text';
 import BackButton from '../../components/BackButton';
 import TaskCard from '../../components/TaskCard';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import Pressable from '../../components/Pressable';
+import { Shadow } from 'react-native-shadow-2';
+import { PlusIcon } from 'react-native-heroicons/outline';
 
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { selectCategoryById } from '../../redux/slices/categoriesSlice';
 import { selectByCategory, selectCompletedCategoryTasks, Task } from '../../redux/slices/tasksSlice';
+import { useNavigation } from '@react-navigation/native';
+import chroma from 'chroma-js';
 
 const CategoryScreen = ({
     route: {
@@ -20,6 +25,7 @@ const CategoryScreen = ({
     const category = useSelector((state: any) => selectCategoryById(state, id));
     const categoryTasks: Task[] = useSelector((state: any) => selectByCategory(state, id));
     const completedCategoryTasks: Task[] = useSelector((state: any) => selectCompletedCategoryTasks(state, id));
+    const navigation = useNavigation();
     const [viewWidth, setViewWidth] = useState(0);
     const progress = useSharedValue(0);
 
@@ -96,6 +102,48 @@ const CategoryScreen = ({
                     </View>
                 }
             />
+            <View
+                style={{
+                    position: 'absolute',
+                    bottom: 24,
+                    right: 24,
+                    elevation: 10,
+                    height: 65,
+                    width: 65,
+                }}
+            >
+                <Pressable
+                    onPress={() =>
+                        navigation.navigate('NewTaskScreen', {
+                            selectedCategories: [id],
+                        })
+                    }
+                >
+                    <Shadow
+                        containerStyle={{
+                            marginBottom: 32,
+                        }}
+                        distance={20}
+                        startColor={chroma(color.color).brighten(1.65).alpha(0.5).hex() as any}
+                        endColor={'#ffffff00'}
+                        offset={[7, 20]}
+                        style={{
+                            borderRadius: 100,
+                            height: 50,
+                            width: 50,
+                        }}
+                    >
+                        <View
+                            className="justify-center items-center rounded-full h-[65] w-[65]"
+                            style={{
+                                backgroundColor: color.color,
+                            }}
+                        >
+                            <PlusIcon size={28} color="white" />
+                        </View>
+                    </Shadow>
+                </Pressable>
+            </View>
             <StatusBar style="light" />
         </SafeAreaView>
     );

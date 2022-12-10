@@ -1,4 +1,4 @@
-# Sunday, November 27 2022
+# React Native: A Simple Tasks Application
 
 ## Tasks
 
@@ -19,7 +19,11 @@
     -   [ ] Category name
     -   [ ] Category color
 -   [ ] Implement searching of tasks
-
-## Notes
-
--   Improve the design of the app
+-   [x] Implement user authentication
+-   [ ] Implement editing of user details
+    -   [ ] Display name
+    -   [ ] Profile picture
+-   [ ] Integrate Firebase as database for project. Databases for:
+    -   [ ] Users
+    -   [ ] Tasks
+    -   [ ] Categories

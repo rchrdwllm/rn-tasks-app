@@ -1,34 +1,31 @@
-import type { EditCategoryScreenProps } from '../../App';
+import type { Category } from '../../redux/slices/categoriesSlice';
+import type { AddCategoryScreenProps } from '../../../App';
 
-import { View } from 'react-native';
-import Text from '../components/Text';
+import { View, Image } from 'react-native';
+import Text from '../../components/Text';
 import { FlatList } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import AddCategoryCard from '../components/AddCategoryCard';
-import Pressable from '../components/Pressable';
-import DownButton from '../components/DownButton';
+import AddCategoryCard from '../../components/AddCategoryCard';
+import Pressable from '../../components/Pressable';
+import DownButton from '../../components/DownButton';
 import { PlusIcon } from 'react-native-heroicons/outline';
 
 import { useSelector } from 'react-redux';
-import { selectCategoryIds } from '../redux/slices/categoriesSlice';
+import { selectAllCategories } from '../../redux/slices/categoriesSlice';
 import { useNavigation } from '@react-navigation/native';
 import { useState, memo } from 'react';
-import { useActions } from '../hooks/useActions';
 
-const EditCategoryScreen = ({
+const AddCategoryScreen = ({
     route: {
-        params: { id, currentCategories },
+        params: { selectedCategories: savedCategories, selectedDay },
     },
-}: EditCategoryScreenProps) => {
-    const categoryIds = useSelector(selectCategoryIds);
+}: AddCategoryScreenProps) => {
+    const categories: Category[] = useSelector(selectAllCategories);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const navigation = useNavigation();
-    const { editCategories } = useActions();
 
-    const handleEditCategories = () => {
-        editCategories({ taskId: id, categories: selectedCategories });
-
-        navigation.goBack();
+    const handleAddCategories = () => {
+        navigation.navigate('NewTaskScreen', { selectedCategories, selectedDay });
     };
 
     return (
@@ -40,25 +37,23 @@ const EditCategoryScreen = ({
         >
             <View className="flex-row items-center justify-between pt-10 px-6 pb-4">
                 <Text twStyle="text-center text-xl" bold>
-                    Edit categories
+                    Add categories
                 </Text>
                 <DownButton />
             </View>
             <FlatList
-                data={categoryIds}
-                keyExtractor={item => item as string}
+                data={categories}
+                keyExtractor={item => item.id}
                 renderItem={({ item }) => (
                     <AddCategoryCard
-                        id={item as any}
-                        savedCategories={currentCategories}
+                        {...item}
+                        savedCategories={savedCategories}
                         setSelectedCategories={setSelectedCategories}
                     />
                 )}
                 contentContainerStyle={{
                     padding: 24,
-                    paddingBottom: 124,
                 }}
-                className="-mt-4"
                 ListFooterComponent={
                     <View>
                         <Pressable scale={0.97} onPress={() => navigation.navigate('NewCategoryScreen')}>
@@ -73,6 +68,19 @@ const EditCategoryScreen = ({
                         </Pressable>
                     </View>
                 }
+                ListEmptyComponent={
+                    <View className="flex-1 justify-center items-center mt-20">
+                        <Image
+                            source={require('../../../assets/complete-tasks.png')}
+                            style={{
+                                height: 200,
+                                width: 200,
+                                resizeMode: 'contain',
+                            }}
+                        />
+                        <Text twStyle="mt-6 text-slate-400">No categories here. Maybe add some first?</Text>
+                    </View>
+                }
             />
             <View
                 style={{
@@ -84,7 +92,7 @@ const EditCategoryScreen = ({
                 }}
             >
                 <Pressable
-                    onPress={handleEditCategories}
+                    onPress={handleAddCategories}
                     twStyle="justify-center items-center rounded-full h-[65] px-6 bg-blue-500"
                 >
                     <Text twStyle="text-white" bold>
@@ -97,4 +105,4 @@ const EditCategoryScreen = ({
     );
 };
 
-export default memo(EditCategoryScreen);
+export default memo(AddCategoryScreen);

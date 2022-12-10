@@ -3,12 +3,17 @@ import type { FunctionComponent } from 'react';
 import { View, Image } from 'react-native';
 import Text from './Text';
 import DrawerTab from './DrawerTab';
-import { CogIcon, RectangleGroupIcon } from 'react-native-heroicons/outline';
+import { ArrowRightIcon, CogIcon, RectangleGroupIcon } from 'react-native-heroicons/outline';
 import BackButton from './BackButton';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 
 import { useWindowDimensions } from 'react-native';
+import { signOut } from 'firebase/auth';
 import { useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../hooks/useAuth';
+import { auth } from '../config/firebase';
+import { setBackgroundColorAsync, setButtonStyleAsync } from 'expo-navigation-bar';
 
 interface DrawerProps {
     onPress: () => void;
@@ -19,6 +24,8 @@ const Drawer: FunctionComponent<DrawerProps> = ({ onPress, shouldOpen }) => {
     const { width } = useWindowDimensions();
     const opacity = useSharedValue(0);
     const xValue = useSharedValue(-100);
+    const navigation = useNavigation();
+    const user = useAuth();
 
     const drawerAnim = useAnimatedStyle(
         () => ({
@@ -38,6 +45,13 @@ const Drawer: FunctionComponent<DrawerProps> = ({ onPress, shouldOpen }) => {
         []
     );
 
+    const handleSignOut = () => {
+        setBackgroundColorAsync('#F9FAFF');
+        setButtonStyleAsync('dark');
+
+        signOut(auth);
+    };
+
     useEffect(() => {
         if (shouldOpen) {
             opacity.value = 1;
@@ -47,6 +61,10 @@ const Drawer: FunctionComponent<DrawerProps> = ({ onPress, shouldOpen }) => {
             xValue.value = -100;
         }
     }, [shouldOpen]);
+
+    if (!user) return null;
+
+    const { displayName } = user;
 
     return (
         <Animated.View className="pt-20" style={drawerAnim}>
@@ -79,7 +97,7 @@ const Drawer: FunctionComponent<DrawerProps> = ({ onPress, shouldOpen }) => {
             </View>
             <View className="mt-10">
                 <Text twStyle="pl-16 text-4xl text-white leading-10" style={{ paddingRight: width * 0.2 }} bold>
-                    Richard William
+                    {displayName}
                 </Text>
                 <View
                     className="mt-4 pl-12"
@@ -87,8 +105,17 @@ const Drawer: FunctionComponent<DrawerProps> = ({ onPress, shouldOpen }) => {
                         paddingRight: width * 0.23,
                     }}
                 >
-                    <DrawerTab Icon={RectangleGroupIcon} label="Categories" route="CategoriesScreen" />
-                    <DrawerTab Icon={CogIcon} label="Settings" route="CategoriesScreen" />
+                    <DrawerTab
+                        Icon={RectangleGroupIcon}
+                        label="Categories"
+                        onPress={() => navigation.navigate('CategoriesScreen')}
+                    />
+                    <DrawerTab
+                        Icon={CogIcon}
+                        label="Settings"
+                        onPress={() => navigation.navigate('CategoriesScreen')}
+                    />
+                    <DrawerTab Icon={ArrowRightIcon} label="Logout" onPress={handleSignOut} />
                 </View>
             </View>
         </Animated.View>

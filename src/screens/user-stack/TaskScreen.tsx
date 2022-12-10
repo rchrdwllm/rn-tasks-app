@@ -1,26 +1,26 @@
-import type { TaskScreenProps } from '../../App';
-import type { Task } from '../redux/slices/tasksSlice';
+import type { TaskScreenProps } from '../../../App';
+import type { Task } from '../../redux/slices/tasksSlice';
 
 import { View, SafeAreaView, FlatList, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import Text from '../components/Text';
-import BackButton from '../components/BackButton';
-import CategoryLabel from '../components/CategoryLabel';
-import DateLabel from '../components/DateLabel';
-import SubtaskCard from '../components/SubtaskCard';
-import Pressable from '../components/Pressable';
+import Text from '../../components/Text';
+import BackButton from '../../components/BackButton';
+import CategoryLabel from '../../components/CategoryLabel';
+import DateLabel from '../../components/DateLabel';
+import SubtaskCard from '../../components/SubtaskCard';
+import Pressable from '../../components/Pressable';
 import { CheckIcon, XMarkIcon, TrashIcon, PlusSmallIcon, ArrowRightIcon } from 'react-native-heroicons/outline';
-import Input from '../components/Input';
+import Input from '../../components/Input';
 
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useActions } from '../hooks/useActions';
+import { useActions } from '../../hooks/useActions';
 import { useNavigation } from '@react-navigation/native';
-import { selectTask } from '../redux/slices/tasksSlice';
+import { selectTask } from '../../redux/slices/tasksSlice';
 import { v4 } from 'uuid';
 
 const TaskScreen = ({ route }: TaskScreenProps) => {
-    const task: Task = useSelector((state: any) => selectTask(state, route.params.id));
+    const task: Task | undefined = useSelector((state: any) => selectTask(state, route.params.id));
     const [shouldAddSubtask, setShouldAddSubtask] = useState(false);
     const [subtask, setSubtask] = useState('');
     const { checkTask, uncheckTask, removeTask, editTask } = useActions();

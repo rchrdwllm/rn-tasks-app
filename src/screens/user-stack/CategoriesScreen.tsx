@@ -1,14 +1,14 @@
 import { View, SafeAreaView, FlatList, Image } from 'react-native';
-import Text from '../components/Text';
-import BackButton from '../components/BackButton';
-import CategoriesScreenCard from '../components/CategoriesScreenCard';
+import Text from '../../components/Text';
+import BackButton from '../../components/BackButton';
+import CategoriesScreenCard from '../../components/CategoriesScreenCard';
 import { StatusBar } from 'expo-status-bar';
-import Pressable from '../components/Pressable';
+import Pressable from '../../components/Pressable';
 import { PlusIcon } from 'react-native-heroicons/outline';
 
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { selectCategoryIds } from '../redux/slices/categoriesSlice';
+import { selectCategoryIds } from '../../redux/slices/categoriesSlice';
 
 const CategoriesScreen = () => {
     const categories = useSelector(selectCategoryIds);
@@ -43,7 +43,7 @@ const CategoriesScreen = () => {
                 ListEmptyComponent={
                     <View className="flex-1 justify-center items-center pt-16 mb-8">
                         <Image
-                            source={require('../../assets/complete-tasks.png')}
+                            source={require('../../../assets/complete-tasks.png')}
                             style={{
                                 height: 200,
                                 width: 200,

@@ -1,4 +1,4 @@
-import type { Color } from '../../screens/SelectCategoryColorScreen';
+import type { Color } from '../../constants/colors';
 
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
@@ -16,10 +16,11 @@ const categoriesSlice = createSlice({
     reducers: {
         addCategory: categoriesAdapter.addOne,
         removeCategory: categoriesAdapter.removeOne,
+        editCategory: categoriesAdapter.updateOne,
     },
 });
 
-export const { addCategory, removeCategory } = categoriesSlice.actions;
+export const { addCategory, removeCategory, editCategory } = categoriesSlice.actions;
 
 const categoriesSelectors = categoriesAdapter.getSelectors((state: any) => state.categories);
 

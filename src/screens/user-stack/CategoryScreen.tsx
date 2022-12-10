@@ -1,16 +1,16 @@
-import type { CategoryScreenProps } from '../../App';
+import type { CategoryScreenProps } from '../../../App';
 
 import { View, SafeAreaView, FlatList, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import Text from '../components/Text';
-import BackButton from '../components/BackButton';
-import TaskCard from '../components/TaskCard';
+import Text from '../../components/Text';
+import BackButton from '../../components/BackButton';
+import TaskCard from '../../components/TaskCard';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { selectCategoryById } from '../redux/slices/categoriesSlice';
-import { selectByCategory, selectCompletedCategoryTasks, Task } from '../redux/slices/tasksSlice';
+import { selectCategoryById } from '../../redux/slices/categoriesSlice';
+import { selectByCategory, selectCompletedCategoryTasks, Task } from '../../redux/slices/tasksSlice';
 
 const CategoryScreen = ({
     route: {
@@ -85,7 +85,7 @@ const CategoryScreen = ({
                 ListEmptyComponent={
                     <View className="flex-1 justify-center items-center pt-16">
                         <Image
-                            source={require('../../assets/complete-tasks.png')}
+                            source={require('../../../assets/complete-tasks.png')}
                             style={{
                                 height: 200,
                                 width: 200,

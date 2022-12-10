@@ -5,11 +5,19 @@ import Pressable from './Pressable';
 import { Bars2Icon, MagnifyingGlassIcon, BellIcon } from 'react-native-heroicons/outline';
 import Text from './Text';
 
+import { useAuth } from '../hooks/useAuth';
+
 interface HeaderProps {
     onPress: (e?: any) => void;
 }
 
 const Header: FunctionComponent<HeaderProps> = ({ onPress }) => {
+    const user = useAuth();
+
+    if (!user) return null;
+
+    const { displayName } = user;
+
     return (
         <View className="px-6">
             <View className="flex-row justify-between">
@@ -26,7 +34,7 @@ const Header: FunctionComponent<HeaderProps> = ({ onPress }) => {
                 </View>
             </View>
             <Text twStyle="mt-6 text-4xl" bold>
-                What's up, William!
+                What's up, {displayName}!
             </Text>
         </View>
     );

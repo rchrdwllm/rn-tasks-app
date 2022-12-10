@@ -1,31 +1,35 @@
-import type { AddDateScreenProps } from '../../App';
-import type { DateData } from 'react-native-calendars';
+import type { EditDateScreenProps } from '../../../App';
 
 import { View } from 'react-native';
-import Text from '../components/Text';
+import Text from '../../components/Text';
 import { StatusBar } from 'expo-status-bar';
 import { Calendar } from 'react-native-calendars';
-import Pressable from '../components/Pressable';
+import Pressable from '../../components/Pressable';
 
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useActions } from '../../hooks/useActions';
 
-const AddDateScreen = ({
+const EditDateScreen = ({
     route: {
-        params: { prevSelectedDay, selectedCategories },
+        params: { id, title, description, categories, selectedDay, subtasks },
     },
-}: AddDateScreenProps) => {
-    const [selectedDay, setSelectedDay] = useState<DateData>({
-        dateString: prevSelectedDay.dateString,
-        day: new Date().getDate(),
-        month: new Date().getMonth() + 1,
-        year: new Date().getFullYear(),
-        timestamp: new Date().getTime(),
-    });
+}: EditDateScreenProps) => {
+    const [newDay, setNewDay] = useState(selectedDay);
+    const { editTask } = useActions();
     const navigation = useNavigation();
 
-    const handleAddDate = () => {
-        navigation.navigate('NewTaskScreen', { selectedDay, selectedCategories });
+    const handleEditDate = () => {
+        editTask({
+            taskId: id,
+            title,
+            description,
+            categories,
+            date: newDay,
+            subtasks,
+        });
+
+        navigation.goBack();
     };
 
     return (
@@ -36,7 +40,7 @@ const AddDateScreen = ({
             }}
         >
             <Text twStyle="pt-16 text-center text-xl text-white" bold>
-                Add date
+                Edit date
             </Text>
             <View
                 className="mt-10 flex-1 rounded-t-3xl overflow-hidden pt-6 px-4"
@@ -46,7 +50,7 @@ const AddDateScreen = ({
             >
                 <Calendar
                     markedDates={{
-                        [selectedDay.dateString]: {
+                        [newDay.dateString]: {
                             selected: true,
                         },
                     }}
@@ -66,7 +70,7 @@ const AddDateScreen = ({
                         textDayHeaderFontFamily: 'Rubik',
                     }}
                     markingType={'custom'}
-                    onDayPress={day => setSelectedDay(day)}
+                    onDayPress={day => setNewDay(day)}
                     enableSwipeMonths
                 />
             </View>
@@ -80,7 +84,7 @@ const AddDateScreen = ({
                 }}
             >
                 <Pressable
-                    onPress={handleAddDate}
+                    onPress={handleEditDate}
                     twStyle="justify-center items-center rounded-full h-[65] px-6 bg-blue-500"
                 >
                     <Text twStyle="text-white" bold>
@@ -93,4 +97,4 @@ const AddDateScreen = ({
     );
 };
 
-export default AddDateScreen;
+export default EditDateScreen;

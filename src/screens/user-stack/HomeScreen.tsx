@@ -1,9 +1,9 @@
 import { SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import AddTaskButton from '../components/AddTaskButton';
+import AddTaskButton from '../../components/AddTaskButton';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
-import Drawer from '../components/Drawer';
-import TodayTasks from '../components/TodayTasks';
+import Drawer from '../../components/Drawer';
+import TodayTasks from '../../components/TodayTasks';
 
 import { useState, useEffect } from 'react';
 import { setBackgroundColorAsync, setButtonStyleAsync } from 'expo-navigation-bar';
@@ -61,6 +61,10 @@ const HomeScreen = () => {
     }, [shouldOpen]);
 
     useEffect(() => {
+        navigation.addListener('beforeRemove', e => {
+            e.preventDefault();
+        });
+
         const unsubscribe = navigation.addListener('blur', () => {
             setTimeout(() => {
                 setShouldOpen(false);

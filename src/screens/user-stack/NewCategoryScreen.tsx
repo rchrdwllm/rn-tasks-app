@@ -1,14 +1,14 @@
-import type { NewCategoryScreenProps } from '../../App';
+import type { NewCategoryScreenProps } from '../../../App';
 
 import { View, SafeAreaView } from 'react-native';
-import Text from '../components/Text';
+import Text from '../../components/Text';
 import { StatusBar } from 'expo-status-bar';
-import Input from '../components/Input';
-import Pressable from '../components/Pressable';
+import Input from '../../components/Input';
+import Pressable from '../../components/Pressable';
 
 import { useState } from 'react';
 import { useNavigation, CommonActions } from '@react-navigation/native';
-import { useActions } from '../hooks/useActions';
+import { useActions } from '../../hooks/useActions';
 import { v4 } from 'uuid';
 import { Shadow } from 'react-native-shadow-2';
 

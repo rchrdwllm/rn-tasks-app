@@ -13,6 +13,7 @@ interface InputProps {
     multiline?: boolean;
     showUnderline?: boolean;
     bold?: boolean;
+    secureTextEnry?: boolean;
 }
 
 const Input: FunctionComponent<InputProps> = ({
@@ -24,6 +25,7 @@ const Input: FunctionComponent<InputProps> = ({
     style,
     multiline,
     bold,
+    secureTextEnry,
 }) => {
     const [fontsLoaded] = useFonts({
         Rubik: Rubik_400Regular,
@@ -44,6 +46,7 @@ const Input: FunctionComponent<InputProps> = ({
                 underlineColorAndroid={showUnderline ? 'rgb(193, 201, 214)' : 'transparent'}
                 placeholderTextColor="rgb(148, 163, 184)"
                 multiline={multiline}
+                secureTextEntry={secureTextEnry}
             />
         </View>
     );

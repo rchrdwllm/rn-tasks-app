@@ -1,14 +1,14 @@
-import type { Color } from '../constants/colors';
+import type { Color } from '../../constants/colors';
 
 import { View, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import Text from '../components/Text';
-import Pressable from '../components/Pressable';
+import Text from '../../components/Text';
+import Pressable from '../../components/Pressable';
 import BigList from 'react-native-big-list';
-import DownButton from '../components/DownButton';
+import DownButton from '../../components/DownButton';
 
 import { useNavigation } from '@react-navigation/native';
-import { colors } from '../constants/colors';
+import { colors } from '../../constants/colors';
 
 const SelectCategoryColorScreen = () => {
     const navigation = useNavigation();

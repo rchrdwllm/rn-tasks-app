@@ -15,9 +15,6 @@
 -   [x] Implement menu
 -   [x] Implement adding of categories
 -   [x] Implement removing of categories
--   [ ] Implement editing of categories
-    -   [ ] Category name
-    -   [ ] Category color
 -   [ ] Implement searching of tasks
 -   [x] Implement user authentication
 -   [ ] Implement editing of user details
@@ -25,5 +22,19 @@
     -   [ ] Profile picture
 -   [ ] Integrate Firebase as database for project. Databases for:
     -   [ ] Users
-    -   [ ] Tasks
+        -   [x] Adding users
+        -   [ ] Editing user profile
+    -   [x] Tasks
+        -   [ ] Adding tasks
+        -   [ ] Editing tasks
+            -   [ ] Status
+            -   [ ] Name
+            -   [ ] Description
+            -   [ ] Categories
+            -   [ ] Date
+            -   [ ] Subtasks
     -   [ ] Categories
+        -   [ ] Adding categories
+        -   [ ] Editing categories
+            -   [ ] Name
+            -   [ ] Color

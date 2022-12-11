@@ -8,13 +8,16 @@ import Pressable from '../../components/Pressable';
 import { CalendarIcon, ArrowRightIcon, XMarkIcon } from 'react-native-heroicons/outline';
 import { FlatList } from 'react-native';
 import CategoryIndicator from '../../components/CategoryIndicator';
+import { Shadow } from 'react-native-shadow-2';
 
 import { useState } from 'react';
+import { useAuth } from '../../hooks/useAuth';
 import { useNavigation } from '@react-navigation/native';
 import { useActions } from '../../hooks/useActions';
 import { v4 } from 'uuid';
 import moment from 'moment';
-import { Shadow } from 'react-native-shadow-2';
+import { db } from '../../config/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 interface Subtask {
     subtask: string;
@@ -44,18 +47,25 @@ const NewTaskScreen = ({
     const [shouldAddSubtask, setShouldAddSubtask] = useState(false);
     const navigation = useNavigation();
     const { addTask } = useActions();
+    const [user] = useAuth();
 
-    const handleAddTask = () => {
-        if (!title) return;
+    const handleAddTask = async () => {
+        if (!title || !user) return;
 
-        addTask({
+        const id = v4();
+        const newTask = {
             title,
             description,
             subtasks,
-            id: v4(),
+            id,
             categories: selectedCategories,
             date: selectedDay,
-        });
+            belongsToUser: user.uid,
+        };
+
+        await setDoc(doc(db, 'tasks', id), newTask);
+
+        addTask(newTask);
 
         navigation.goBack();
     };

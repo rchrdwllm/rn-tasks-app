@@ -1,16 +1,21 @@
 import type { NewCategoryScreenProps } from '../../../App';
 
-import { View, SafeAreaView } from 'react-native';
+import { View, SafeAreaView, ActivityIndicator } from 'react-native';
 import Text from '../../components/Text';
 import { StatusBar } from 'expo-status-bar';
 import Input from '../../components/Input';
 import Pressable from '../../components/Pressable';
 
 import { useState } from 'react';
-import { useNavigation, CommonActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { selectCategoriesLoading } from '../../redux/slices/categoriesSlice';
+import { useAuth } from '../../hooks/useAuth';
 import { useActions } from '../../hooks/useActions';
+import { doc, setDoc } from 'firebase/firestore';
 import { v4 } from 'uuid';
 import { Shadow } from 'react-native-shadow-2';
+import { db } from '../../config/firebase';
 
 const NewCategoryScreen = ({
     route: {
@@ -27,14 +32,27 @@ const NewCategoryScreen = ({
 }: NewCategoryScreenProps) => {
     const navigation = useNavigation();
     const [name, setName] = useState('');
-    const { addCategory } = useActions();
+    const { addCategory, setCategoriesLoading } = useActions();
+    const [user] = useAuth();
+    const loading = useSelector(selectCategoriesLoading);
 
-    const handleAddCategory = () => {
-        addCategory({
-            id: v4(),
+    if (!user) return null;
+
+    const handleAddCategory = async () => {
+        setCategoriesLoading(true);
+
+        const id = v4();
+        const newCategory = {
+            id,
             color: params.selectedColor,
             category: name,
-        });
+            belongsToUser: user.uid,
+        };
+
+        await setDoc(doc(db, 'categories', id), newCategory);
+
+        addCategory(newCategory);
+        setCategoriesLoading(false);
 
         navigation.goBack();
     };
@@ -103,9 +121,13 @@ const NewCategoryScreen = ({
                         }}
                     >
                         <View className="justify-center items-center rounded-full h-[65] w-[150] bg-blue-500">
-                            <Text twStyle="text-white" bold>
-                                Add category
-                            </Text>
+                            {loading ? (
+                                <ActivityIndicator color="#fff" />
+                            ) : (
+                                <Text twStyle="text-white" bold>
+                                    Add category
+                                </Text>
+                            )}
                         </View>
                     </Shadow>
                 </Pressable>

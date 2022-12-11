@@ -1,3 +1,5 @@
+import type { User } from '../../redux/slices/usersSlice';
+
 import { View, SafeAreaView, Alert, ActivityIndicator } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Text from '../../components/Text';
@@ -10,12 +12,16 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigation } from '@react-navigation/native';
 import { updateProfile } from 'firebase/auth';
+import { useActions } from '../../hooks/useActions';
+import { db } from '../../config/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 const SetNameScreen = () => {
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);
     const [user] = useAuth();
     const navigation = useNavigation();
+    const { userAdded } = useActions();
 
     const handleUpdateName = () => {
         setLoading(true);
@@ -23,7 +29,19 @@ const SetNameScreen = () => {
         if (user && name) {
             updateProfile(user, {
                 displayName: name,
-            }).then(() => {
+            }).then(async () => {
+                const newUser: User = {
+                    name,
+                    id: user.uid,
+                    email: user.email,
+                    tasks: [],
+                    categories: [],
+                };
+
+                await setDoc(doc(db, 'users', user.uid), newUser);
+
+                userAdded(newUser);
+
                 setLoading(false);
 
                 navigation.navigate('HomeScreen');

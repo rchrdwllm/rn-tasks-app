@@ -12,8 +12,16 @@ import {
     editSubtask,
     editCategories,
     removeTaskCategory,
+    tasksReceived,
 } from '../redux/slices/tasksSlice';
-import { addCategory, removeCategory, editCategory } from '../redux/slices/categoriesSlice';
+import {
+    addCategory,
+    removeCategory,
+    editCategory,
+    categoriesReceived,
+    setCategoriesLoading,
+} from '../redux/slices/categoriesSlice';
+import { userAdded } from '../redux/slices/usersSlice';
 import { useDispatch } from 'react-redux';
 
 export const useActions = () => {
@@ -21,6 +29,7 @@ export const useActions = () => {
 
     return bindActionCreators(
         {
+            tasksReceived,
             addTask,
             removeTask,
             addTaskCategory,
@@ -34,8 +43,11 @@ export const useActions = () => {
             editTask,
             editSubtask,
             editCategories,
+            categoriesReceived,
             removeTaskCategory,
             editCategory,
+            userAdded,
+            setCategoriesLoading,
         },
         dispatch
     );

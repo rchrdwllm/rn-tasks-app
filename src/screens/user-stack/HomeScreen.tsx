@@ -6,6 +6,11 @@ import Drawer from '../../components/Drawer';
 import TodayTasks from '../../components/TodayTasks';
 
 import { useState, useEffect } from 'react';
+import { useAuth } from '../../hooks/useAuth';
+import { useActions } from '../../hooks/useActions';
+import { useSelector } from 'react-redux';
+import { collection, DocumentData, getDocs, Query, query, where } from 'firebase/firestore';
+import { db } from '../../config/firebase';
 import { setBackgroundColorAsync, setButtonStyleAsync } from 'expo-navigation-bar';
 import { useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -17,6 +22,27 @@ const HomeScreen = () => {
     const xValue = useSharedValue(0);
     const { width } = useWindowDimensions();
     const navigation = useNavigation();
+    const { tasksReceived } = useActions();
+    const [user] = useAuth();
+
+    const getTasks = async () => {
+        tasksReceived([]);
+
+        if (user) {
+            const q: Query<DocumentData> = query(collection(db, 'tasks'), where('belongsToUser', '==', user.uid));
+            const querySnapshot = await getDocs(q);
+            const tasks = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            tasksReceived(tasks);
+        }
+    };
+
+    useEffect(() => {
+        getTasks();
+    }, [user]);
 
     const drawerAnim = useAnimatedStyle(
         () => ({

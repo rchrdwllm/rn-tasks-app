@@ -16,6 +16,7 @@ export interface Task {
     id: string;
     categories: string[];
     date: DateData;
+    belongsToUser: string;
 }
 
 const initialState: Task[] = [];
@@ -24,6 +25,9 @@ const tasksSlice = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
+        tasksReceived: (_, action) => {
+            return action.payload;
+        },
         addTask: (state, action) => {
             state.push(action.payload);
         },
@@ -116,6 +120,7 @@ const tasksSlice = createSlice({
 });
 
 export const {
+    tasksReceived,
     addTask,
     removeTask,
     addTaskCategory,

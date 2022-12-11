@@ -6,7 +6,6 @@ import Button from '../../components/Button';
 import { useState } from 'react';
 import { auth } from '../../config/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { useNavigation } from '@react-navigation/native';
 
 const SignUpScreen = () => {
     const [details, setDetails] = useState({
@@ -15,7 +14,6 @@ const SignUpScreen = () => {
         error: '',
     });
     const [loading, setLoading] = useState(false);
-    const navigation = useNavigation();
 
     const signUp = async () => {
         setLoading(true);

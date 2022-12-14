@@ -54,7 +54,7 @@ const SelectCategoryColorScreen = () => {
                 }
                 renderItem={renderFunction}
                 itemHeight={98}
-                headerHeight={150}
+                headerHeight={190}
                 contentContainerStyle={{ paddingHorizontal: 26 }}
             />
             <StatusBar style="light" />

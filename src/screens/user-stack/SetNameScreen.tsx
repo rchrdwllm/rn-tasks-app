@@ -44,7 +44,7 @@ const SetNameScreen = () => {
 
                 setLoading(false);
 
-                navigation.navigate('HomeScreen');
+                navigation.navigate('SetProfilePictureScreen');
             });
         } else {
             Alert.alert('Error', 'Please enter a name.');
@@ -54,7 +54,7 @@ const SetNameScreen = () => {
     };
 
     useEffect(() => {
-        if (user && user.displayName) navigation.navigate('HomeScreen');
+        if (user && user.displayName) navigation.navigate('SetProfilePictureScreen');
     }, [user, user?.displayName]);
 
     return (

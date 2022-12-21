@@ -12,6 +12,7 @@ import CategoriesScreen from './CategoriesScreen';
 import NewCategoryScreen from './NewCategoryScreen';
 import SelectCategoryColorScreen from './SelectCategoryColorScreen';
 import SetNameScreen from './SetNameScreen';
+import SetProfilePictureScreen from './SetProfilePictureScreen';
 
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs } from '@react-navigation/stack';
 
@@ -23,6 +24,13 @@ const UserStack = () => {
             <Stack.Screen
                 name="SetNameScreen"
                 component={SetNameScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="SetProfilePictureScreen"
+                component={SetProfilePictureScreen}
                 options={{
                     headerShown: false,
                 }}

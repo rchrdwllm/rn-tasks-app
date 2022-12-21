@@ -32,6 +32,7 @@ export type RootStackParamList = {
     WelcomeScreen: undefined;
     SignUpScreen: undefined;
     SetNameScreen: undefined;
+    SetProfilePictureScreen: undefined;
 };
 
 export type TaskScreenProps = StackScreenProps<RootStackParamList, 'TaskScreen'>;

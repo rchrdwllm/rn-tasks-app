@@ -17,6 +17,9 @@
 -   [x] Implement removing of categories
 -   [ ] Implement searching of tasks
 -   [x] Implement user authentication
+-   [ ] Implement adding of user details
+    -   [ ] Display name
+    -   [ ] Profile picture
 -   [ ] Implement editing of user details
     -   [ ] Display name
     -   [ ] Profile picture
@@ -24,8 +27,8 @@
     -   [ ] Users
         -   [x] Adding users
         -   [ ] Editing user profile
-    -   [x] Tasks
-        -   [ ] Adding tasks
+    -   [] Tasks
+        -   [x] Adding tasks
         -   [ ] Editing tasks
             -   [ ] Status
             -   [ ] Name
@@ -34,7 +37,7 @@
             -   [ ] Date
             -   [ ] Subtasks
     -   [ ] Categories
-        -   [ ] Adding categories
+        -   [x] Adding categories
         -   [ ] Editing categories
             -   [ ] Name
             -   [ ] Color

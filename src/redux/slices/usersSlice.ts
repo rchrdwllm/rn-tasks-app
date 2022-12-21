@@ -9,6 +9,10 @@ export interface User {
     tasks: Task[];
     categories: Category[];
     id: string;
+    pfp: {
+        publicId: string;
+        secureUrl: string;
+    };
 }
 
 const usersAdapter = createEntityAdapter<User>();

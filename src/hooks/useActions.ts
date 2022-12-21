@@ -21,7 +21,7 @@ import {
     categoriesReceived,
     setCategoriesLoading,
 } from '../redux/slices/categoriesSlice';
-import { userAdded } from '../redux/slices/usersSlice';
+import { userAdded, userUpdated } from '../redux/slices/usersSlice';
 import { useDispatch } from 'react-redux';
 
 export const useActions = () => {
@@ -47,6 +47,7 @@ export const useActions = () => {
             removeTaskCategory,
             editCategory,
             userAdded,
+            userUpdated,
             setCategoriesLoading,
         },
         dispatch
